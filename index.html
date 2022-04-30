@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>ABC Mobile TEST</title>
+</head>
+<body>
+    <div>
+        <header class="header">
+            <div class="header__inner container">
+                <h1 class="title">
+                    Новый гороскоп на 2021 год!
+                </h1>
+                <p>
+                    Узнайте, что Вас ждёт.
+                </p>
+            </div>
+        </header>
+        <main class="container">
+            <section class="banner">
+                <div class="banner__images">
+                    <img class="main" src="assets/banner.jpeg" alt="Банер">
+                    <img class="zodiac" src="assets/zodiac-circle.svg" alt="Круг зодиаков">
+                </div>
+            </section>
+            <section class="info">
+                <p class="info__title">
+                    Узнайте, как 2021 год изменит жизнь каждого из нас!
+                </p>
+                <p class="info__description">
+                    К сожалению, 2020 год принес нам немало неприятностей, даже откровенных проблем и несчастий. Не смотря на это, 3 знака зодиака очень скоро обретут долгожданное счастье! 2021 год затронет своими потрясениями каждого из нас.
+                </p>
+            </section>
+            <section class="red-line">
+                <div class="red-line__red"></div>
+            </section>
+            <section class="form-window">
+                <div class="form">
+                    <div class="form__block question1">
+                        <p class="form__title">
+                            Укажите свой пол:
+                        </p>
+                        <form class="form__inputs">
+                            <div>
+                                <input type="radio" id="female" name="sex">
+                                <label for="female">Женщина</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="male" name="sex">
+                                <label for="male">Мужчина</label>
+                            </div>
+                        </form>
+                        <button class="form__send-button" id="question1-Btn">Далее</button>
+                    </div>
+        
+                    <div class="form__block question2">
+                        <p class="form__title">
+                            В какое время суток Вы чувствуете себя наиболее комфортно?
+                        </p>
+                        <form class="form__inputs">
+                            <div>
+                                <input type="radio" id="morning" name="time">
+                                <label for="morning">Утро</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="night" name="time">
+                                <label for="night">Ночь</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="evening" name="time">
+                                <label for="evening">Вечер</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="day" name="time">
+                                <label for="day">День</label>
+                            </div>
+                        </form>
+                    <button class="form__send-button" id="question2-Btn">Далее</button>
+                    </div>
+        
+                    <div class="form__block question3">
+                        <p class="form__title">
+                            Подскажите, мучает ли Вас бессонница последнее время?
+                        </p>
+                        <form class="form__inputs">
+                            <div>
+                                <input type="radio" id="yes" name="sleep">
+                                <label for="yes">Да</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="no" name="sleep">
+                                <label for="no">Нет</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="never" name="sleep">
+                                <label for="never">Никогда</label>
+                            </div>
+                        </form>
+                    <button class="form__send-button" id="question3-Btn">Далее</button>
+                    </div>
+        
+                    <div class="form__block question4">
+                        <p class="form__title">
+                            Чувствуете ли Вы в последнее время, что вам никак не удается осуществить ваши планы?
+                        </p>
+                        <form class="form__inputs">
+                            <div>
+                                <input type="radio" id="plans-yes" name="plans">
+                                <label for="plans-yes">Да</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="plans-no" name="plans">
+                                <label for="plans-no">Нет</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="plans-never" name="plans">
+                                <label for="plans-never">Никогда</label>
+                            </div>
+                        </form>
+                    <button class="form__send-button" id="question4-Btn">Далее</button>
+                    </div>
+        
+                    <div class="form__block question5">
+                        <p class="form__title">
+                            Какой Вы видите свою жизнь через 5 лет?
+                        </p>
+                        <form class="form__inputs">
+                            <div>
+                                <input type="radio" id="family" name="future">
+                                <label for="family">Брак, семья, дети, дом</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="traveling" name="future">
+                                <label for="traveling">Путешествия по Миру</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="career" name="future">
+                                <label for="career">Успешная карьера</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="all" name="future">
+                                <label for="all">Все вместе</label>
+                            </div>
+                        </form>
+                    <button class="form__send-button" id="question5-Btn">Далее</button>
+                    </div>
+        
+                    <div class="form__block question6">
+                        <p class="form__title">
+                            Введите дату своего рождения:
+                        </p>
+                        <form class="form__inputs">
+                            <select class="days" name="days" id="days">
+                                <option value="0" disabled selected>День</option>
+                            </select>
+                            <select class="months" name="months" id="months">
+                                <option value="0" disabled selected>Месяц</option>
+                            </select>
+                            <select class="years" name="years" id="years">
+                                <option value="0" disabled selected>Год</option>
+                            </select>
+                            <div class="please-make-choice">Пожалуйста, выберите ответ</div>
+                            <div class="with-sign">
+                            </div>
+                        </form>
+                        <button class="form__send-button" id="question6-Btn">Далее</button>
+                    </div>
+    
+                    <div class="loading">
+                        <p class="loading__title">Обработка Ваших данных:</p>
+                        <div class="loading__bar">
+                            <p>0%</p>
+                            <div class="loading__bar-green"></div>
+                        </div>
+                        <div class="loading__statuses">
+                            <p>Анализ введенных данных . . . . . . .
+                                <span>Выполнено!</span>
+                            </p>
+                            <p>Коррекция астрологического знака . . . . . . . 
+                                <span>Выполнено!</span>
+                            </p>
+                            <p>Расчет вариаций ответов . . . . . . . 
+                                <span>Выполнено!</span>
+                            </p>
+                            <p>Генерация предсказания . . . . . . . 
+                                <span>Выполнено!</span>
+                            </p>
+                            <p>Сохранение результата . . . . . . . 
+                                <span>Выполнено!</span>
+                            </p>
+                            <p>Поиск свободного оператора . . . . . . . 
+                                <span>Выполнено!</span>
+                            </p>
+                            <p>Начала озвучки и записи аудио-сообщения . . . . . . .
+                                <span>Выполнено!</span>
+                            </p>
+                            <p class="recording">Идёт запись!</p>
+                            <p class="done">ГОТОВО!</p>
+                        </div>
+                        
+                    </div>
+    
+                    <div class="call-n-listen">
+                        <p class="call-n-listen__title">Спасибо за Ваши ответы!</p>
+                        <p class="call-n-listen__congrad">Поздравляем! Прослушать свой персональный гороскоп возможно уже сейчас!</p>
+                        <div>
+                            <span>2021 год Вас ошарашит!</span>
+                            <p>
+                                Вас ждёт то, чего Вы никак не ожидали. Первые известия Вы получите совсем скоро, возможно это 17-18 ноября!
+                                <br><br>
+                                Что бы прослушать аудио-сообщение, необходимо нажать на кнопку ниже и позвонить со своего мобильного телефона. Позвоните и Прослушайте очень серьезную информацию!
+                            </p>
+                        </div>
+                        <button class="form__send-button call">
+                            <img src="assets/icon_call.svg" alt="call-icon">
+                            Звонить и слушать
+                        </button>
+                    </div>
+    
+                    <div class="form__data">
+                        <table>
+                            <tr>
+                                <td>KEY</td>
+                                <td>VALUE</td>
+                            </tr>
+                        </table>
+                    </div>
+    
+    
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer class="footer">
+        <p>2020 © HOROSCOP PERSONAL</p>
+        <p>TERMENI SI CONDITII: ACESTA ESTE UN SERVICIU DE DIVERTISMENT. PRIN FOLOSIREA LUI DECLARATI CA AVETI 18 </p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
