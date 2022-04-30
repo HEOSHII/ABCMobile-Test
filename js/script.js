@@ -22,49 +22,6 @@ const loadingStatuses = document
 const signBlock = document.querySelector(".with-sign");
 signBlock.style.display = "none";
 
-// IS YEAR LEAP
-function isYearLeap(year) {
-  return year % 100 === 0 && year % 400 !== 0
-    ? false
-    : year % 4 === 0
-    ? true
-    : false;
-}
-
-//creating and adding days to select
-function add_days_to_select(month = "1", year = "2000") {
-  daysBlock.innerHTML = "";
-  let daysCount;
-  if (month === "2") {
-    if (isYearLeap(year)) {
-      daysCount = 29;
-    } else {
-      daysCount = 28;
-    }
-  } else if (
-    month === "1" ||
-    month === "3" ||
-    month === "5" ||
-    month === "7" ||
-    month === "8" ||
-    month === "10" ||
-    month === "12"
-  ) {
-    daysCount = 31;
-  } else {
-    daysCount = 30;
-  }
-
-  for (let day = 1; day <= daysCount; day++) {
-    let option = document.createElement("option");
-    option.value = day;
-    if (day < 10) {
-      daysBlock.appendChild(option).innerText = "0" + day;
-    } else {
-      daysBlock.appendChild(option).innerText = day;
-    }
-  }
-}
 // add_days_to_select();
 for (let day = 1; day <= 31; day++) {
   let option = document.createElement("option");
@@ -120,7 +77,7 @@ document.addEventListener("click", (event) => {
     setTimeout(() => {
       moveTo(3);
       moveRedLine(3);
-    }, 200);
+    }, 300);
   }
 
   if (
@@ -134,7 +91,7 @@ document.addEventListener("click", (event) => {
     setTimeout(() => {
       moveTo(4);
       moveRedLine(4);
-    }, 200);
+    }, 300);
   }
 
   if (
@@ -148,7 +105,7 @@ document.addEventListener("click", (event) => {
     setTimeout(() => {
       moveTo(5);
       moveRedLine(5);
-    }, 200);
+    }, 300);
   }
 
   if (
@@ -164,11 +121,17 @@ document.addEventListener("click", (event) => {
     setTimeout(() => {
       moveTo(6);
       moveRedLine(6);
-    }, 200);
+    }, 300);
   }
 });
 //NEXT BUTTIN LISTENERS
+document.querySelector(".form-window").style.cssText = "margin-top: 25px";
 startNextButton.addEventListener("click", () => {
+  if (window.innerWidth > 320) {
+    document.querySelector(".form-window").style.cssText = "margin-top: 102px";
+  } else {
+    document.querySelector(".form-window").style.cssText = "margin-top: 25px";
+  }
   moveTo(2);
   banner.style.display = "none";
   info.style.display = "none";
@@ -178,7 +141,8 @@ startNextButton.addEventListener("click", () => {
   }, 100);
 });
 
-finishNextButton.addEventListener("click", () => {
+finishNextButton.addEventListener("click", (event) => {
+  event.preventDefault();
   moveTo(7);
   moveRedLine(7);
   completeLine.style.display = "none";
@@ -218,11 +182,9 @@ function isAllSelected() {
   if (monthsBlock.value !== "0") {
     monthsBlock.style.color = "#315DFA";
     console.log(monthsBlock.value);
-    // add_days_to_select(monthsBlock.value,yearsBlock.value);
   }
   if (yearsBlock.value !== "0") {
     yearsBlock.style.color = "#315DFA";
-    // add_days_to_select(monthsBlock.value,yearsBlock.value);
   }
   if (daysBlock.value !== "0") {
     daysBlock.style.color = "#315DFA";
@@ -324,13 +286,13 @@ function whatZodiacSign(month, day) {
 function startLoading() {
   setTimeout(() => {
     loadingBar.querySelector("div").classList.add("animated");
+    console.log("start loading animation...");
     const loadingInterval = setInterval(() => {
-      console.log("loading animation...");
-      const barWidth = loadingBar.clientWidth;
+      const barWidth = loadingBar.clientWidth; // FULL BAR
       const loadingOffset = loadingBar.querySelector("div").offsetLeft;
 
       const percent = Math.trunc(100 - (-loadingOffset / barWidth) * 100);
-      console.log(percent);
+
       if ((percent > 0) & (percent < 100 / 7)) {
         loadingStatuses[0].style.display = "flex";
       }
@@ -372,7 +334,16 @@ function startLoading() {
       }
       loadingBar.querySelector("p").innerText = percent + "%";
     }, 0);
-  }, 1000);
+  }, 777);
+}
+
+// IS YEAR LEAP
+function isYearLeap(year) {
+  return year % 100 === 0 && year % 400 !== 0
+    ? false
+    : year % 4 === 0
+    ? true
+    : false;
 }
 
 async function getResponse() {
@@ -391,7 +362,4 @@ async function getResponse() {
       }
     });
 }
-
-// HOW MUCH DAYS IN A MONTH CHECK
-
 //</FUNCTIONS>

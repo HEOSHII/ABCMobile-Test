@@ -145,12 +145,13 @@ body {
 .form-window {
   width: 100%;
   overflow: hidden;
-  margin-top: 35px;
+  margin-top: 15px;
 }
 
 .form {
   position: relative;
   left: 0;
+  left: -500%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -522,25 +523,6 @@ body {
 .form__inputs input:checked + label::before {
   -webkit-box-shadow: inset 0 0 0 2px white;
           box-shadow: inset 0 0 0 2px white;
-}
-
-.form__inputs button {
-  padding: 10px;
-  border-radius: 0;
-  border: 1px solid #e4e4e4;
-  background: white;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: 14px;
-  cursor: pointer;
 }
 
 .form__send-button {
