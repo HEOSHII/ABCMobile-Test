@@ -21,6 +21,10 @@ const redLine = document.querySelector('.red-line__red'); // redline of statusba
 const loadingBar = document.querySelector('.loading__bar'); //LOADING BAR
 const loadingStatuses = document.querySelector('.loading__statuses').querySelectorAll('p'); // LOADING STATUSES
 
+
+const signBlock = document.querySelector('.with-sign');
+signBlock.style.display = 'none';
+
 //creating and adding days to select
     for (let day = 1; day <= 31; day++) {
         let option = document.createElement("option");
@@ -152,7 +156,7 @@ const loadingStatuses = document.querySelector('.loading__statuses').querySelect
     }
 
     function isAllSelected() {
-        const atantion = document.querySelector('.please-make-choice');
+        const attention = document.querySelector('.please-make-choice');
         if (monthsBlock.value !== '0') {
             monthsBlock.style.color = '#315DFA';
         }
@@ -163,15 +167,16 @@ const loadingStatuses = document.querySelector('.loading__statuses').querySelect
             daysBlock.style.color = '#315DFA';
         }
         if (monthsBlock.value !== '0' && yearsBlock.value !== '0' && daysBlock.value !== '0') {
-            let sing = whatZodiacSign(monthsBlock.value,daysBlock.value);
-            console.log(sing);
-            document.querySelector('.with-sign').innerHTML = 
-                `<img src="assets/sign/${sing.name}.svg" alt="">
-                <p>${sing.nameRus}</p>`;
-            atantion.style.display = 'none';
+            signBlock.style.display = 'block';
+            signBlock.querySelectorAll('img').forEach(img => {
+                img.style.opacity = '0';
+            })
+            let sign = whatZodiacSign(monthsBlock.value,daysBlock.value);
+            document.getElementById(sign.name).style.opacity = '1';
+            attention.style.display = 'none';
             question6NextButton.style.display = 'flex';
         } else {
-            atantion.style.display = 'block';
+            attention.style.display = 'block';
         }
     }
 
@@ -206,7 +211,7 @@ const loadingStatuses = document.querySelector('.loading__statuses').querySelect
         }
         if ((Number(month) === 07 && Number(day) >= 23)
             || (Number(month) === 08 && Number(day) <= 23)) {
-                return {name: 'rak',nameRus: 'Лев'}
+                return {name: 'leo',nameRus: 'Лев'}
         }
         if ((Number(month) === 08 && Number(day) >= 24)
             || (Number(month) === 09 && Number(day) <= 22)) {
@@ -298,7 +303,7 @@ const loadingStatuses = document.querySelector('.loading__statuses').querySelect
         });
 
     }
-
+    
     /* HOW MUCH DAYS IN A MONTH CHECK
 function updateDays(month, year) {
     daysBlock.innerHTML = '';
