@@ -49,6 +49,7 @@ body {
 .header .title {
   font-size: 17px;
   text-transform: uppercase;
+  font-weight: bold;
   color: #AFDCE5;
 }
 
@@ -150,7 +151,6 @@ body {
 .form {
   position: relative;
   left: 0;
-  left: -500%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

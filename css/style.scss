@@ -32,6 +32,7 @@ body {
     .title {
         font-size: 17px;
         text-transform: uppercase;
+        font-weight: bold;
         color: #AFDCE5;
     }
     p {
@@ -120,7 +121,7 @@ body {
     
     //FOR SIMPLE WORK COMMENT THIS
          // YOU CAN CONTROLL THE FROMLINE POSITION FOR TESTING (start: 0; end: -800%; step: -100%)
-        left: -500%;
+        // left: -500%;
     //COMMENT THIS
 
     display: flex;

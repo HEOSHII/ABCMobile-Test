@@ -1,0 +1,29 @@
+@media (min-width: 768px) {
+  .header {
+    height: 65px;
+  }
+  .header .title {
+    font-size: 20px;
+  }
+  .header p {
+    font-size: 16px;
+  }
+  .info__title {
+    font-size: 20px;
+  }
+  .info__description {
+    font-size: 16px;
+  }
+  .form__title {
+    font-size: 20px;
+  }
+  .form label {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 375px) {
+  .form-window {
+    margin-top: 102px;
+  }
+}
