@@ -1,18 +1,14 @@
 //<BUTTONS>
-    const question1NextButton = document.getElementById('question1-Btn'); 
-    const question2NextButton = document.getElementById('question2-Btn');
-    const question3NextButton = document.getElementById('question3-Btn');
-    const question4NextButton = document.getElementById('question4-Btn');
-    const question5NextButton = document.getElementById('question5-Btn');
-    const question6NextButton = document.getElementById('question6-Btn');
+    const startNextButton = document.getElementById('question1-Btn'); 
+    const finishNextButton = document.getElementById('question6-Btn');
     const callButton = document.querySelector('.call');
 //</BUTTONS>
 //<SECTIONS & BLOCKS>
     const banner = document.querySelector('.banner'); // section with banner
     const info = document.querySelector('.info'); // section with info
-    const monthsBlock = document.getElementById('months'); //DIV MONTH
-    const yearsBlock = document.getElementById('years'); //DIV YEARS
-    const daysBlock = document.getElementById('days'); //DIV DAYS
+    const monthsBlock = document.getElementById('months'); //SELECT MONTH
+    const yearsBlock = document.getElementById('years'); //SELECT YEARS
+    const daysBlock = document.getElementById('days'); //SELECT DAYS
     const completeLine = document.querySelector('.red-line'); // section with redline statusbar
     const formLine = document.querySelector('.form'); // FROMS LINE
     const dataTable = document.querySelector('.form__data').querySelector('table'); //DATA TABLE
@@ -25,7 +21,47 @@ const loadingStatuses = document.querySelector('.loading__statuses').querySelect
 const signBlock = document.querySelector('.with-sign');
 signBlock.style.display = 'none';
 
+
+
+// IS YEAR LEAP
+function isYearLeap(year) {
+    return (year % 100 === 0) && (year % 400 !== 0) ? false
+    : (year % 4 === 0) ? true : false;
+}
+
 //creating and adding days to select
+function add_days_to_select(month = '1', year = '2000') {
+    daysBlock.innerHTML = '';
+    let daysCount;
+    if (month === '2') {
+        if (isYearLeap(year)) {
+            daysCount = 29;
+        } else {
+            daysCount = 28;
+        }
+    } else if ( (month === '1') 
+        || (month === "3")
+        || (month === "5")
+        || (month === "7")
+        || (month === "8")
+        || (month === "10")
+        || (month === "12") ) {
+            daysCount = 31;
+    } else {
+        daysCount = 30;
+    }
+
+    for (let day = 1; day <= daysCount; day++) {
+        let option = document.createElement("option");
+        option.value = day;
+        if (day < 10) {
+            daysBlock.appendChild(option).innerText = '0' + day;
+        } else {
+            daysBlock.appendChild(option).innerText = day;
+        }
+    }
+}
+// add_days_to_select();
     for (let day = 1; day <= 31; day++) {
         let option = document.createElement("option");
         option.value = day;
@@ -60,37 +96,49 @@ signBlock.style.display = 'none';
 
             if ((elementID === 'male' || elementFor === 'male')
             || (elementID === 'female' || elementFor === 'female')) {
-                question1NextButton.style.display = 'flex';
+                startNextButton.style.display = 'flex';
             }
 
             if ((elementID === 'morning' || elementFor === 'morning')
             || (elementID === 'night' || elementFor === 'night')
             || (elementID === 'evening' || elementFor === 'evening')
             || (elementID === 'day' || elementFor === 'day')) {
-                question2NextButton.style.display = 'flex';
+                setTimeout(() => {
+                    moveTo(3);
+                    moveRedLine(3);
+                }, 200);
             }
 
             if ((elementID === 'yes' || elementFor === 'yes')
             || (elementID === 'no' || elementFor === 'no')
             || (elementID === 'never' || elementFor === 'never')) {
-                question3NextButton.style.display = 'flex';
+                setTimeout(() => {
+                    moveTo(4);
+                    moveRedLine(4);
+                }, 200);
             }
 
             if ((elementID === 'plans-yes' || elementFor === 'plans-yes')
             || (elementID === 'plans-no' || elementFor === 'plans-no')
             || (elementID === 'plans-never' || elementFor === 'plans-never')) {
-                question4NextButton.style.display = 'flex';
+                setTimeout(() => {
+                    moveTo(5);
+                    moveRedLine(5);
+                }, 200);
             }
 
             if ((elementID === 'family' || elementFor === 'family')
             || (elementID === 'career' || elementFor === 'career')
             || (elementID === 'traveling' || elementFor === 'traveling')
             || (elementID === 'all' || elementFor === 'all')) {
-                question5NextButton.style.display = 'flex';
+                setTimeout(() => {
+                    moveTo(6);
+                    moveRedLine(6);
+                }, 200);
             }
         })
     //NEXT BUTTIN LISTENERS
-        question1NextButton.addEventListener('click', () => {
+        startNextButton.addEventListener('click', () => {
             moveTo(2);
             banner.style.display = 'none';
             info.style.display = 'none';
@@ -100,27 +148,7 @@ signBlock.style.display = 'none';
             },100);
         });
 
-        question2NextButton.addEventListener('click', () => {
-            moveTo(3);
-            moveRedLine(3);
-        });
-
-        question3NextButton.addEventListener('click', () => {
-            moveTo(4);
-            moveRedLine(4);
-        });
-
-        question4NextButton.addEventListener('click', () => {
-            moveTo(5);
-            moveRedLine(5);
-        });
-
-        question5NextButton.addEventListener('click', () => {
-            moveTo(6);
-            moveRedLine(6);
-        });
-
-        question6NextButton.addEventListener('click', () => {
+        finishNextButton.addEventListener('click', () => {
             moveTo(7);
             moveRedLine(7);
             completeLine.style.display = 'none';
@@ -159,9 +187,12 @@ signBlock.style.display = 'none';
         const attention = document.querySelector('.please-make-choice');
         if (monthsBlock.value !== '0') {
             monthsBlock.style.color = '#315DFA';
+            console.log(monthsBlock.value)
+            // add_days_to_select(monthsBlock.value,yearsBlock.value);
         }
         if (yearsBlock.value !== '0') {
             yearsBlock.style.color = '#315DFA';
+            // add_days_to_select(monthsBlock.value,yearsBlock.value);
         }
         if (daysBlock.value !== '0') {
             daysBlock.style.color = '#315DFA';
@@ -173,8 +204,9 @@ signBlock.style.display = 'none';
             })
             let sign = whatZodiacSign(monthsBlock.value,daysBlock.value);
             document.getElementById(sign.name).style.opacity = '1';
+            signBlock.querySelector('p').innerHTML = sign.nameRus;
             attention.style.display = 'none';
-            question6NextButton.style.display = 'flex';
+            finishNextButton.style.display = 'flex';
         } else {
             attention.style.display = 'block';
         }
@@ -301,45 +333,9 @@ signBlock.style.display = 'none';
                 </tbody>`
             }
         });
-
     }
     
-    /* HOW MUCH DAYS IN A MONTH CHECK
-function updateDays(month, year) {
-    daysBlock.innerHTML = '';
-    let daysCount;
-    if (month === 'feb') {
-        if (isYearLeap(year)) {
-            console.log('29')
-            daysCount = 29;
-        } else {
-            console.log('28')
-            daysCount = 28;
-        }
-    } else if ( (month === 'jan') 
-        || (month === "mar")
-        || (month === "may")
-        || (month === "jul")
-        || (month === "aug")
-        || (month === "oct")
-        || (month === "des") ) {
-            console.log('31')
-            daysCount = 31;
-    } else {
-        daysCount = 30;
-    }
+    // HOW MUCH DAYS IN A MONTH CHECK
 
-    for (let day = 1; day <= daysCount; day++) {
-        let option = document.createElement("button");
-        daysBlock.appendChild(option).innerHTML = day;
-    }
-}
-
-// IS YEAR LEAP
-function isYearLeap(year) {
-    return (year % 100 === 0) && (year % 400 !== 0) ? false
-    : (year % 4 === 0) ? true : false;
-}
-*/
 
 //</FUNCTIONS>
