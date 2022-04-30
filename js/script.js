@@ -19,19 +19,65 @@ const loadingStatuses = document
   .querySelector(".loading__statuses")
   .querySelectorAll("p"); // LOADING STATUSES
 
+const attention = document.querySelector(".please-make-choice");
+
 const signBlock = document.querySelector(".with-sign");
 signBlock.style.display = "none";
 
-// add_days_to_select();
-for (let day = 1; day <= 31; day++) {
-  let option = document.createElement("option");
-  option.value = day;
-  if (day < 10) {
-    daysBlock.appendChild(option).innerText = "0" + day;
+//creating and adding days to select
+function update_days_count(m = 1, y = 2000, current) {
+  let daysInMonth;
+  if (m === 2) {
+    if (isYearLeap(y)) {
+      daysInMonth = 29;
+    } else {
+      daysInMonth = 28;
+    }
+  } else if (m === 4 || m === 6 || m === 9 || m === 11) {
+    daysInMonth = 30;
   } else {
-    daysBlock.appendChild(option).innerText = day;
+    daysInMonth = 31;
+  }
+
+  if (current > daysInMonth) {
+    attention.style.display = "block";
+    finishNextButton.style.display = "none";
+    signBlock.style.display = "none";
+    daysBlock.innerHTML = "";
+
+    daysBlock.style.color = "#000000";
+    const dayOption = document.createElement("option");
+    dayOption.setAttribute("disabled", "disabled");
+    dayOption.value = 0;
+    dayOption.innerText = "День";
+    daysBlock.prepend(dayOption);
+    daysBlock.selectedIndex = 0;
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      let option = document.createElement("option");
+      option.value = day;
+      if (day < 10) {
+        daysBlock.appendChild(option).innerText = "0" + day;
+      } else {
+        daysBlock.appendChild(option).innerText = day;
+      }
+    }
+  } else {
+    daysBlock.querySelectorAll("option").length <= 0;
+    for (let day = 1; day <= 31; day++) {
+      let option = document.createElement("option");
+      option.value = day;
+      if (day < 10) {
+        daysBlock.appendChild(option).innerText = "0" + day;
+      } else {
+        daysBlock.appendChild(option).innerText = day;
+      }
+    }
   }
 }
+
+update_days_count(); //default - 1 month 2000 year
+
 //creating and adding months to select
 for (let month = 1; month <= 12; month++) {
   let option = document.createElement("option");
@@ -155,14 +201,28 @@ callButton.addEventListener("click", () => {
 });
 
 // CHECK IS THE ALL OF SELECTS ARE NOT EMPTY
+daysBlock.onclick = () => {
+  console.log(daysBlock.querySelectorAll("option").length);
+};
 daysBlock.onchange = (event) => {
   isAllSelected();
+  const day = Number(daysBlock.value);
 };
 monthsBlock.onchange = (event) => {
   isAllSelected();
+
+  const day = Number(daysBlock.value);
+  const month = Number(monthsBlock.value);
+  const year = Number(yearsBlock.value);
+  update_days_count(month, year, day);
 };
 yearsBlock.onchange = (event) => {
   isAllSelected();
+
+  const day = Number(daysBlock.value);
+  const month = Number(monthsBlock.value);
+  const year = Number(yearsBlock.value);
+  update_days_count(month, year, day);
 };
 //</LISTENERS>
 
@@ -178,10 +238,8 @@ function moveRedLine(num) {
 }
 
 function isAllSelected() {
-  const attention = document.querySelector(".please-make-choice");
   if (monthsBlock.value !== "0") {
     monthsBlock.style.color = "#315DFA";
-    console.log(monthsBlock.value);
   }
   if (yearsBlock.value !== "0") {
     yearsBlock.style.color = "#315DFA";
