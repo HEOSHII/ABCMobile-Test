@@ -148,17 +148,40 @@
             <div class="form__block birthday">
               <p class="form__title">Введите дату своего рождения:</p>
               <form class="form__inputs">
-                <select class="days-select" name="days-select" id="days-select">
-                  <option value="0" disabled selected>День</option>
-                </select>
-                <select class="months-select" name="months-select" id="months-select">
-                  <option value="0" disabled selected>Месяц</option>
-                </select>
-                <select class="years-select" name="years-select" id="years-select">
-                  <option value="0" disabled selected>Год</option>
-                </select>
-                <div class="please-make-choice">Пожалуйста, выберите ответ</div>
-                <div class="with-sign">
+                <div class="form__inputs-select">
+                  <select
+                    class="days-select"
+                    name="days-select"
+                    id="days-select"
+                  >
+                    <option value="0" disabled selected>День</option>
+                  </select>
+                  <img src="assets/arrow.svg" alt="select-arrow" />
+                </div>
+
+                <div class="form__inputs-select">
+                  <select
+                    class="months-select"
+                    name="months-select"
+                    id="months-select"
+                  >
+                    <option value="0" disabled selected>Месяц</option>
+                  </select>
+                </div>
+
+                <div class="form__inputs-select">
+                  <select
+                    class="years-select"
+                    name="years-select"
+                    id="years-select"
+                  >
+                    <option value="0" disabled selected>Год</option>
+                  </select>
+                </div>
+
+                <div class="warning">Пожалуйста, выберите ответ</div>
+
+                <!-- <div class="signs">
                   <img
                     src="assets/sign/aquarius.svg"
                     id="aquarius"
@@ -188,7 +211,9 @@
                   <img src="assets/sign/taurus.svg" id="taurus" alt="taurus" />
                   <img src="assets/sign/virgo.svg" id="virgo" alt="virgo" />
                   <p></p>
-                </div>
+                </div> -->
+
+                <div class="signs"></div>
 
                 <button class="form__send-button" id="birthday-Btn">
                   Далее

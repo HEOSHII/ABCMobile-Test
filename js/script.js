@@ -15,14 +15,11 @@ const dataTable = document.querySelector(".form__data").querySelector("table"); 
 //</SECTIONS & BLOCKS>
 const redLine = document.querySelector(".red-line__red"); // redline of statusbar
 const loadingBar = document.querySelector(".loading__bar"); //LOADING BAR
-const loadingStatuses = document
-  .querySelector(".loading__statuses")
-  .querySelectorAll("p"); // LOADING STATUSES
+const loadingStatuses = document.querySelectorAll(".loading__statuses p"); //LOADING STATUSES
 
-const attention = document.querySelector(".please-make-choice");
-
-const signBlock = document.querySelector(".with-sign");
-signBlock.style.display = "none";
+const warning = document.querySelector(".warning");
+const signsBlock = document.querySelector(".signs");
+// displayNone(signsBlock);
 
 const DAYS_BY_DEFAULT = 31;
 
@@ -49,6 +46,8 @@ for (let year = 2022; year >= 1920; year--) {
 
 //<LISTENERS>
 document.addEventListener("click", (event) => {
+  const elementClass = event.target.className;
+  console.log(elementClass);
   const elementID = event.target.id;
   const elementFor = event.target.getAttribute("for");
   if (
@@ -153,6 +152,13 @@ daysSelect.onchange = () => {
   isAllSelected();
 };
 
+daysSelect.onclick = (event) => {
+  const targetParent = event.target.parentNode;
+  // if elementClass ===
+  targetParent.querySelector("img").style.cssText =
+    "transform: translateY(-50%) scale(-1)";
+};
+
 monthsSelect.onchange = () => {
   const selectedDay = Number(daysSelect.value);
   const selectedMonth = Number(monthsSelect.value);
@@ -212,7 +218,7 @@ function updateDaysSelect(countDays, selectedDay) {
     daysSelect.style.cssText = "color: black;";
     selectedOption.setAttribute("disabled", "disabled");
     selectedOption.setAttribute("selected", "selected");
-    displayNone(signBlock, birthdayButton);
+    displayNone(signsBlock, birthdayButton);
   } else {
     selectedOption.value = selectedDay;
     if (selectedDay < 10) {
@@ -270,93 +276,63 @@ function isAllSelected() {
     yearsSelect.value !== "0" &&
     daysSelect.value !== "0"
   ) {
-    displayBlock(signBlock);
-    signBlock.querySelectorAll("img").forEach((img) => {
-      img.style.opacity = "0";
-    });
-    let sign = whatZodiacSign(monthsSelect.value, daysSelect.value);
-    document.getElementById(sign.name).style.opacity = "1";
-    signBlock.querySelector("p").innerHTML = sign.nameRus;
-    displayNone(attention);
+    const sign = getZodiacSign(monthsSelect.value, daysSelect.value);
+    createBlockBySign(sign);
+    displayNone(warning);
     displayFlex(birthdayButton);
   } else {
-    displayBlock(attention);
+    displayBlock(warning);
   }
 }
 
-function whatZodiacSign(month, day) {
-  if (
-    (Number(month) === 12 && Number(day) >= 22) ||
-    (Number(month) === 01 && Number(day) <= 20)
-  ) {
+function createBlockBySign(sign) {
+  const img = document.createElement("img");
+  img.setAttribute("src", `../assets/sign/${sign.name}.png`);
+  img.id = sign.name;
+  img.setAttribute("alt", sign.name);
+  signsBlock.innerHTML = "";
+  signsBlock.innerText = sign.nameRus;
+  signsBlock.prepend(img);
+}
+
+function getZodiacSign(month, day) {
+  month = Number(month);
+  day = Number(day);
+  if ((month === 12 && day >= 22) || (month === 01 && day <= 20))
     return { name: "capricorn", nameRus: "Козерог" };
-  }
-  if (
-    (Number(month) === 01 && Number(day) >= 21) ||
-    (Number(month) === 02 && Number(day) <= 18)
-  ) {
+
+  if ((month === 01 && day >= 21) || (month === 02 && day <= 18))
     return { name: "aquarius", nameRus: "Водолей" };
-  }
-  if (
-    (Number(month) === 02 && Number(day) >= 19) ||
-    (Number(month) === 03 && Number(day) <= 20)
-  ) {
+
+  if ((month === 02 && day >= 19) || (month === 03 && day <= 20))
     return { name: "pisces", nameRus: "Рыбы" };
-  }
-  if (
-    (Number(month) === 03 && Number(day) >= 21) ||
-    (Number(month) === 04 && Number(day) <= 20)
-  ) {
+
+  if ((month === 03 && day >= 21) || (month === 04 && day <= 20))
     return { name: "aries", nameRus: "Овен" };
-  }
-  if (
-    (Number(month) === 04 && Number(day) >= 21) ||
-    (Number(month) === 05 && Number(day) <= 21)
-  ) {
+
+  if ((month === 04 && day >= 21) || (month === 05 && day <= 21))
     return { name: "taurus", nameRus: "Телец" };
-  }
-  if (
-    (Number(month) === 05 && Number(day) >= 22) ||
-    (Number(month) === 06 && Number(day) <= 21)
-  ) {
+
+  if ((month === 05 && day >= 22) || (month === 06 && day <= 21))
     return { name: "gemini", nameRus: "Близнецы" };
-  }
-  if (
-    (Number(month) === 06 && Number(day) >= 22) ||
-    (Number(month) === 07 && Number(day) <= 22)
-  ) {
+
+  if ((month === 06 && day >= 22) || (month === 07 && day <= 22))
     return { name: "rak", nameRus: "Рак" };
-  }
-  if (
-    (Number(month) === 07 && Number(day) >= 23) ||
-    (Number(month) === 08 && Number(day) <= 23)
-  ) {
+
+  if ((month === 07 && day >= 23) || (month === 08 && day <= 23))
     return { name: "leo", nameRus: "Лев" };
-  }
-  if (
-    (Number(month) === 08 && Number(day) >= 24) ||
-    (Number(month) === 09 && Number(day) <= 22)
-  ) {
+
+  if ((month === 08 && day >= 24) || (month === 09 && day <= 22))
     return { name: "virgo", nameRus: "Дева" };
-  }
-  if (
-    (Number(month) === 09 && Number(day) >= 23) ||
-    (Number(month) === 10 && Number(day) <= 23)
-  ) {
+
+  if ((month === 09 && day >= 23) || (month === 10 && day <= 23))
     return { name: "libra", nameRus: "Весы" };
-  }
-  if (
-    (Number(month) === 10 && Number(day) >= 24) ||
-    (Number(month) === 11 && Number(day) <= 22)
-  ) {
+
+  if ((month === 10 && day >= 24) || (month === 11 && day <= 22))
     return { name: "scorpio", nameRus: "Скорпион" };
-  }
-  if (
-    (Number(month) === 11 && Number(day) >= 23) ||
-    (Number(month) === 12 && Number(day) <= 21)
-  ) {
+
+  if ((month === 11 && day >= 23) || (month === 12 && day <= 21))
     return { name: "sagittarius", nameRus: "Стрелец" };
-  }
 }
 
 function startLoading() {

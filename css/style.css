@@ -145,12 +145,13 @@ body {
 .form-window {
   width: 100%;
   overflow: hidden;
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 .form {
   position: relative;
   left: 0;
+  left: -500%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -198,10 +199,6 @@ body {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-image: url(../assets/arrow.svg);
-  background-repeat: no-repeat;
-  background-position-x: 95%;
-  background-position-y: 50%;
   width: 100%;
   padding: 10px 20px;
   border: 1px solid #e4e4e4;
@@ -215,7 +212,7 @@ body {
   color: red;
 }
 
-.form__block.birthday .form__inputs .please-make-choice {
+.form__block.birthday .form__inputs .warning {
   text-align: center;
   display: none;
   padding: 10px 0;
@@ -229,32 +226,23 @@ body {
   font-weight: 300;
 }
 
-.form__block.birthday .with-sign {
+.form__block.birthday .signs {
   width: 100%;
-  height: 82px;
   margin: 0 auto;
-  position: relative;
+  gap: 0;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
 }
 
-.form__block.birthday .with-sign img {
-  -webkit-backdrop-filter: box-shadow(2px 2px 2px black);
-          backdrop-filter: box-shadow(2px 2px 2px black);
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-          transform: translateX(-50%);
-  position: absolute;
-  opacity: 0;
+.form__block.birthday .signs img {
   -webkit-transition: opacity 0.1s;
   -o-transition: opacity 0.1s;
   transition: opacity 0.1s;
   z-index: 10;
 }
 
-.form__block.birthday .with-sign p {
+.form__block.birthday .signs p {
   text-align: center;
   width: 100%;
   font-size: 10px;
@@ -524,6 +512,25 @@ body {
           box-shadow: inset 0 0 0 2px white;
 }
 
+.form__inputs-select {
+  position: relative;
+}
+
+.form__inputs-select img {
+  position: absolute;
+  width: 15px;
+  height: 8px;
+  right: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+  pointer-events: none;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
 .form__send-button {
   margin: 13px auto 0 auto;
   font-size: 14px;
@@ -578,15 +585,6 @@ body {
   -webkit-transform: scale(0.99);
       -ms-transform: scale(0.99);
           transform: scale(0.99);
-}
-
-.form__select-arrow {
-  -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-  -webkit-transition-delay: 0.1s;
-       -o-transition-delay: 0.1s;
-          transition-delay: 0.1s;
 }
 
 .footer {
