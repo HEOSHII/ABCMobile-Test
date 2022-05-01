@@ -53,7 +53,7 @@ for (let year = 2022; year >= 1920; year--) {
   yearsSelect.appendChild(option).innerText = year;
 }
 
-//=========== LISTENES
+//=========== LISTENERS
 document.addEventListener("click", (event) => {
   const elementName = event.target.getAttribute("name");
   const elementID = event.target.id;
@@ -112,9 +112,9 @@ document.addEventListener("click", (event) => {
 
 genderButton.addEventListener("click", () => {
   if (window.innerWidth > 320) {
-    document.querySelector(".form-window").style.cssText = "margin-top: 102px";
+    document.querySelector(".forms-view ").style.cssText = "margin-top: 102px";
   } else {
-    document.querySelector(".form-window").style.cssText = "margin-top: 25px";
+    document.querySelector(".forms-view ").style.cssText = "margin-top: 25px";
   }
   moveFormLineTo(2);
   displayNone(banner, info);
@@ -183,7 +183,7 @@ yearsSelect.onchange = (event) => {
 
 answersOpenButton.onclick = () => displayFlex(mainTableResult);
 answersCloseButton.onclick = () => displayNone(mainTableResult);
-//=========== /LISTENES
+//=========== /LISTENERS
 //=========== METHODS
 //SHOW BLOCK(BLOCKS) WITH FLEX
 function displayFlex() {
