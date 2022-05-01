@@ -44,8 +44,6 @@ for (let year = 2022; year >= 1920; year--) {
 
 //<LISTENERS>
 document.addEventListener("click", (event) => {
-  const elementClass = event.target.className;
-  console.log(elementClass);
   const elementID = event.target.id;
   const elementFor = event.target.getAttribute("for");
   if (
@@ -400,7 +398,6 @@ function startLoading() {
         displayNone(document.querySelector(".recording"));
         clearInterval(loadingInterval);
         setTimeout(() => {
-          console.log("move next");
           moveFormLineTo(8);
         }, 1500);
         console.log("loading animation is done.");
