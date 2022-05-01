@@ -1,27 +1,38 @@
-//<BUTTONS>
+// ========== BUTTONS
 const genderButton = document.getElementById("gender-Btn");
 const birthdayButton = document.getElementById("birthday-Btn");
 const callButton = document.querySelector(".call");
-//</BUTTONS>
-//<SECTIONS & BLOCKS>
-const banner = document.querySelector(".banner"); // section with banner
-const info = document.querySelector(".info"); // section with info
-const monthsSelect = document.getElementById("months-select"); //SELECT MONTH
-const yearsSelect = document.getElementById("years-select"); //SELECT YEARS
-const daysSelect = document.getElementById("days-select"); //SELECT DAYS
-const completeLine = document.querySelector(".red-line"); // section with redline statusbar
-const formLine = document.querySelector(".form"); // FROMS LINE
-const dataTable = document.querySelector(".form__data").querySelector("table"); //DATA TABLE
-//</SECTIONS & BLOCKS>
-const redLine = document.querySelector(".red-line__red"); // redline of statusbar
-const loadingBar = document.querySelector(".loading__bar"); //LOADING BAR
-const loadingStatuses = document.querySelectorAll(".loading__statuses p"); //LOADING STATUSES
-
-const warning = document.querySelector(".warning");
+const answersOpenButton = document.querySelector(".answers-table-button");
+const answersCloseButton = document.querySelector(
+  ".answers-objects__close-button"
+);
+//========== /BUTTONS
+//========== SECTIONS, BLOCKS, TABLES
+const banner = document.querySelector(".banner");
+const info = document.querySelector(".info");
+const monthsSelect = document.getElementById("months-select");
+const yearsSelect = document.getElementById("years-select");
+const daysSelect = document.getElementById("days-select");
+const formLine = document.querySelector(".form");
+const dataTable = document.querySelector(".form__data").querySelector("table");
 const signsBlock = document.querySelector(".signs");
-// displayNone(signsBlock);
-
+const mainTableResult = document.querySelector(".answers-objects");
+const tableQuestion = document.querySelector(".question");
+const tableAnswer = document.querySelector(".answer");
+const warning = document.querySelector(".warning");
+//========== /SECTIONS, BLOCKS, TABLES
+//========== OTHER
+const statusbar = document.querySelector(".statusbar");
+const redLine = document.querySelector(".statusbar__red");
+const loadingBar = document.querySelector(".loading__bar");
+const loadingStatuses = document.querySelectorAll(".loading__statuses p");
 const DAYS_BY_DEFAULT = 31;
+const result = {
+  updateResult(question, answer) {
+    this[question] = answer;
+  },
+};
+//========== /OTHER
 
 //creating and adding days to select
 addDaysByDefault();
@@ -42,43 +53,30 @@ for (let year = 2022; year >= 1920; year--) {
   yearsSelect.appendChild(option).innerText = year;
 }
 
-//<LISTENERS>
+//=========== LISTENES
 document.addEventListener("click", (event) => {
+  const elementName = event.target.getAttribute("name");
   const elementID = event.target.id;
-  const elementFor = event.target.getAttribute("for");
-  if (
-    elementID === "male" ||
-    elementFor === "male" ||
-    elementID === "female" ||
-    elementFor === "female"
-  ) {
+  if (elementID === "male" || elementID === "female") {
     displayFlex(genderButton);
+    result.updateResult(elementName, elementID);
   }
 
   if (
     elementID === "morning" ||
-    elementFor === "morning" ||
     elementID === "night" ||
-    elementFor === "night" ||
     elementID === "evening" ||
-    elementFor === "evening" ||
-    elementID === "day" ||
-    elementFor === "day"
+    elementID === "day"
   ) {
     setTimeout(() => {
       moveFormLineTo(3);
       moveRedStatusLineTo(3);
     }, 300);
+
+    result.updateResult(elementName, elementID);
   }
 
-  if (
-    elementID === "yes" ||
-    elementFor === "yes" ||
-    elementID === "no" ||
-    elementFor === "no" ||
-    elementID === "never" ||
-    elementFor === "never"
-  ) {
+  if (elementID === "yes" || elementID === "no" || elementID === "never") {
     setTimeout(() => {
       moveFormLineTo(4);
       moveRedStatusLineTo(4);
@@ -86,33 +84,29 @@ document.addEventListener("click", (event) => {
   }
 
   if (
-    elementID === "plans-yes" ||
-    elementFor === "plans-yes" ||
-    elementID === "plans-no" ||
-    elementFor === "plans-no" ||
-    elementID === "plans-never" ||
-    elementFor === "plans-never"
+    elementID === "feel" ||
+    elementID === "not_feel" ||
+    elementID === "never_feel"
   ) {
     setTimeout(() => {
       moveFormLineTo(5);
       moveRedStatusLineTo(5);
     }, 300);
+
+    result.updateResult(elementName, elementID);
   }
 
   if (
     elementID === "family" ||
-    elementFor === "family" ||
     elementID === "career" ||
-    elementFor === "career" ||
     elementID === "traveling" ||
-    elementFor === "traveling" ||
-    elementID === "all" ||
-    elementFor === "all"
+    elementID === "all_in"
   ) {
     setTimeout(() => {
       moveFormLineTo(6);
       moveRedStatusLineTo(6);
     }, 300);
+    result.updateResult(elementName, elementID);
   }
 });
 
@@ -124,20 +118,23 @@ genderButton.addEventListener("click", () => {
   }
   moveFormLineTo(2);
   displayNone(banner, info);
-  displayBlock(completeLine);
+  displayBlock(statusbar);
   setTimeout(() => {
     moveRedStatusLineTo(2);
   }, 100);
 });
-
 birthdayButton.addEventListener("click", (event) => {
   event.preventDefault();
   moveFormLineTo(7);
   moveRedStatusLineTo(7);
-  displayNone(completeLine);
+  displayNone(statusbar);
+  result.updateResult(
+    "birthday",
+    `${daysSelect.value}.${monthsSelect.value}.${yearsSelect.value}`
+  );
   startLoading();
+  createAnswersTable(result);
 });
-//CALL BYTTON LISTENER
 callButton.addEventListener("click", () => {
   moveFormLineTo(9);
 });
@@ -146,19 +143,17 @@ daysSelect.onclick = (event) => {
   const targetParent = event.target.parentNode;
   scaleArrow("open", targetParent);
 };
-
 daysSelect.onchange = (event) => {
   const targetParent = event.target.parentNode;
   scaleArrow("close", targetParent);
-  isAllSelected();
+  areAllSelected();
 };
 
 monthsSelect.onclick = (event) => {
   const targetParent = event.target.parentNode;
   scaleArrow("open", targetParent);
-  isAllSelected();
+  areAllSelected();
 };
-
 monthsSelect.onchange = (event) => {
   const targetParent = event.target.parentNode;
   const selectedDay = Number(daysSelect.value);
@@ -167,16 +162,15 @@ monthsSelect.onchange = (event) => {
   const daysInSelectedMonth = countDaysInMonth(selectedMonth, selectedYear);
   updateDaysSelect(daysInSelectedMonth, selectedDay);
   scaleArrow("close", targetParent);
-  isAllSelected();
+  areAllSelected();
 };
 
 yearsSelect.onclick = (event) => {
   const targetParent = event.target.parentNode;
   scaleArrow("open", targetParent);
-  isAllSelected();
+  areAllSelected();
 };
-
-yearsSelect.onchange = () => {
+yearsSelect.onchange = (event) => {
   const targetParent = event.target.parentNode;
   const selectedDay = Number(daysSelect.value);
   const selectedMonth = Number(monthsSelect.value);
@@ -184,38 +178,32 @@ yearsSelect.onchange = () => {
   const daysInSelectedMonth = countDaysInMonth(selectedMonth, selectedYear);
   updateDaysSelect(daysInSelectedMonth, selectedDay);
   scaleArrow("close", targetParent);
-  isAllSelected();
+  areAllSelected();
 };
-//</LISTENERS>
 
-//<METHODS>
-
-function scaleArrow(action, target) {
-  action === "open"
-    ? (target.querySelector("img").style.cssText =
-        "transform: translateY(-50%) scaleY(-1)")
-    : (target.querySelector("img").style.cssText =
-        "transform: translateY(-50%)");
-}
-
+answersOpenButton.onclick = () => displayFlex(mainTableResult);
+answersCloseButton.onclick = () => displayNone(mainTableResult);
+//=========== /LISTENES
+//=========== METHODS
+//SHOW BLOCK(BLOCKS) WITH FLEX
 function displayFlex() {
   for (let i = 0; i < arguments.length; i++) {
     arguments[i].style.display = "flex";
   }
 }
-
-function displayNone() {
-  for (let i = 0; i < arguments.length; i++) {
-    arguments[i].style.display = "none";
-  }
-}
-
+//SHOW BLOCK(BLOCKS) WITH BLOCK
 function displayBlock() {
   for (let i = 0; i < arguments.length; i++) {
     arguments[i].style.display = "block";
   }
 }
-
+//HIDE BLOCK(BLOCKS)
+function displayNone() {
+  for (let i = 0; i < arguments.length; i++) {
+    arguments[i].style.display = "none";
+  }
+}
+//ADD DAYS INTO THE SELECT WITH DEFAULT COUNT OF DAYS
 function addDaysByDefault() {
   for (let day = 1; day <= DAYS_BY_DEFAULT; day++) {
     let option = document.createElement("option");
@@ -227,7 +215,7 @@ function addDaysByDefault() {
     }
   }
 }
-
+//UPDATE NUMBER OF DAYS DEPENDING ON MONTH
 function updateDaysSelect(countDays, selectedDay) {
   daysSelect.innerHTML = "";
   const selectedOption = document.createElement("option");
@@ -259,7 +247,7 @@ function updateDaysSelect(countDays, selectedDay) {
     }
   }
 }
-
+//COUNT UP DAYS DEPENDING ON MONTH AND YEAR
 function countDaysInMonth(month, year = 2000) {
   return month === 2
     ? isYearLeap(year)
@@ -269,18 +257,18 @@ function countDaysInMonth(month, year = 2000) {
     ? 30
     : 31;
 }
-
+//MOVE MAIN QUESTION LINE
 function moveFormLineTo(num) {
   formLine.style.left = (num - 1) * -100 + "%";
 }
-
+//MOVE STATUS LINE
 function moveRedStatusLineTo(num) {
   num > 6
-    ? displayNone(completeLine)
+    ? displayNone(statusbar)
     : (redLine.style.left = (6 - num) * (-100 / 5) + "%");
 }
-
-function isAllSelected() {
+//CHECK ARE ALL <SELECTS> IN BIRTHDAY_BLOCK SELECTED
+function areAllSelected() {
   if (monthsSelect.value !== "0") {
     monthsSelect.style.color = "#315DFA";
   }
@@ -296,14 +284,24 @@ function isAllSelected() {
     daysSelect.value !== "0"
   ) {
     const sign = getZodiacSign(monthsSelect.value, daysSelect.value);
+
     createBlockBySign(sign);
     displayNone(warning);
-    displayFlex(birthdayButton);
+    displayFlex(birthdayButton, signsBlock);
   } else {
+    displayNone(signsBlock);
     displayBlock(warning);
   }
 }
-
+// TURN AROUND A ARROW IN <SELECTS>
+function scaleArrow(action, target) {
+  action === "open"
+    ? (target.querySelector("img").style.cssText =
+        "transform: translateY(-50%) scaleY(-1)")
+    : (target.querySelector("img").style.cssText =
+        "transform: translateY(-50%)");
+}
+//CREATE BLOCK WITH IMAGE-SIGN
 function createBlockBySign(sign) {
   const img = document.createElement("img");
   img.setAttribute("src", `assets/sign/${sign.name}.png`);
@@ -313,7 +311,7 @@ function createBlockBySign(sign) {
   signsBlock.innerText = sign.nameRus;
   signsBlock.prepend(img);
 }
-
+//GET ZODIAC SIGN DEPENDING ON MONTH AND DAY
 function getZodiacSign(month, day) {
   month = Number(month);
   day = Number(day);
@@ -353,11 +351,12 @@ function getZodiacSign(month, day) {
   if ((month === 11 && day >= 23) || (month === 12 && day <= 21))
     return { name: "sagittarius", nameRus: "Стрелец" };
 }
-
+//START LOADING
 function startLoading() {
   setTimeout(() => {
     loadingBar.querySelector("div").classList.add("animated");
     console.log("start loading animation...");
+    document.querySelector("body").style.cssText = "cursor: progress;";
     const loadingInterval = setInterval(() => {
       const barWidth = loadingBar.clientWidth; // FULL BAR
       const loadingOffset = loadingBar.querySelector("div").offsetLeft;
@@ -400,13 +399,13 @@ function startLoading() {
           moveFormLineTo(8);
         }, 1500);
         console.log("loading animation is done.");
+        document.querySelector("body").style.cssText = "cursor: default;";
       }
       loadingBar.querySelector("p").innerText = percent + "%";
     }, 0);
   }, 777);
 }
-
-// IS YEAR LEAP
+//CHECK IS YEAR LEAP
 function isYearLeap(year) {
   return year % 100 === 0 && year % 400 !== 0
     ? false
@@ -414,7 +413,7 @@ function isYearLeap(year) {
     ? true
     : false;
 }
-
+//CREATE TABLE WITH DATA FROM URL
 function createTable(data) {
   for (key in data) {
     dataTable.innerHTML += `<tbody>
@@ -425,11 +424,24 @@ function createTable(data) {
                             </tbody>`;
   }
 }
-//</METHODS>
-
-//FETCH
+//CREATE TABLE WITH ANSWERS
+function createAnswersTable(object) {
+  for (key in object) {
+    const question = document.createElement("p");
+    const answer = document.createElement("p");
+    if (key !== "updateResult") {
+      question.innerText = key;
+      answer.innerText = object[key];
+      tableQuestion.append(question);
+      tableAnswer.append(answer);
+    }
+  }
+}
+//=========== /METHODS
+//=========== FETCH REQUEST
 fetch("https://swapi.dev/api/people/1/")
   .then((response) => response.text())
   .then((response) => {
     createTable(JSON.parse(response));
   });
+//=========== /FETCH REQUEST
