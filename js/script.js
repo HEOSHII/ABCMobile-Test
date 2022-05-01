@@ -287,7 +287,7 @@ function isAllSelected() {
 
 function createBlockBySign(sign) {
   const img = document.createElement("img");
-  img.setAttribute("src", `../assets/sign/${sign.name}.png`);
+  img.setAttribute("src", `assets/sign/${sign.name}.png`);
   img.id = sign.name;
   img.setAttribute("alt", sign.name);
   signsBlock.innerHTML = "";
