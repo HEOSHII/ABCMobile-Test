@@ -24,9 +24,7 @@ const signsBlock = document.querySelector(".signs");
 const DAYS_BY_DEFAULT = 31;
 
 //creating and adding days to select
-
 addDaysByDefault();
-
 //creating and adding months to select
 for (let month = 1; month <= 12; month++) {
   let option = document.createElement("option");
@@ -119,6 +117,7 @@ document.addEventListener("click", (event) => {
     }, 300);
   }
 });
+
 genderButton.addEventListener("click", () => {
   if (window.innerWidth > 320) {
     document.querySelector(".form-window").style.cssText = "margin-top: 102px";
@@ -146,39 +145,62 @@ callButton.addEventListener("click", () => {
   moveFormLineTo(9);
 });
 
-// CHECK IS THE ALL OF SELECTS ARE NOT EMPTY
+daysSelect.onclick = (event) => {
+  const targetParent = event.target.parentNode;
+  scaleArrow("open", targetParent);
+};
 
-daysSelect.onchange = () => {
+daysSelect.onchange = (event) => {
+  const targetParent = event.target.parentNode;
+  scaleArrow("close", targetParent);
   isAllSelected();
 };
 
-daysSelect.onclick = (event) => {
+monthsSelect.onclick = (event) => {
   const targetParent = event.target.parentNode;
-  // if elementClass ===
-  targetParent.querySelector("img").style.cssText =
-    "transform: translateY(-50%) scale(-1)";
+  scaleArrow("open", targetParent);
+  isAllSelected();
 };
 
-monthsSelect.onchange = () => {
+monthsSelect.onchange = (event) => {
+  const targetParent = event.target.parentNode;
   const selectedDay = Number(daysSelect.value);
   const selectedMonth = Number(monthsSelect.value);
   const selectedYear = Number(yearsSelect.value);
   const daysInSelectedMonth = countDaysInMonth(selectedMonth, selectedYear);
   updateDaysSelect(daysInSelectedMonth, selectedDay);
+  scaleArrow("close", targetParent);
+  isAllSelected();
+};
+
+yearsSelect.onclick = (event) => {
+  const targetParent = event.target.parentNode;
+  scaleArrow("open", targetParent);
   isAllSelected();
 };
 
 yearsSelect.onchange = () => {
+  const targetParent = event.target.parentNode;
   const selectedDay = Number(daysSelect.value);
   const selectedMonth = Number(monthsSelect.value);
   const selectedYear = Number(yearsSelect.value);
   const daysInSelectedMonth = countDaysInMonth(selectedMonth, selectedYear);
   updateDaysSelect(daysInSelectedMonth, selectedDay);
+  scaleArrow("close", targetParent);
   isAllSelected();
 };
 //</LISTENERS>
 
 //<METHODS>
+
+function scaleArrow(action, target) {
+  action === "open"
+    ? (target.querySelector("img").style.cssText =
+        "transform: translateY(-50%) scaleY(-1)")
+    : (target.querySelector("img").style.cssText =
+        "transform: translateY(-50%)");
+}
+
 function displayFlex() {
   for (let i = 0; i < arguments.length; i++) {
     arguments[i].style.display = "flex";
