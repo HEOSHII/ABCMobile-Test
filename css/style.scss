@@ -119,10 +119,8 @@ body {
   position: relative;
   left: 0;
 
-  //FOR SIMPLE WORK COMMENT THIS
-  // YOU CAN CONTROLL THE FROMLINE POSITION FOR TESTING (start: 0; end: -800%; step: -100%)
+  // YOU CAN CONTROLL THE FORMLINE POSITION FOR TESTING (start: 0; end: -800%; step: -100%)
   // left: -500%;
-  //COMMENT THIS
 
   display: flex;
   transition: left 0.2s ease-in-out;
