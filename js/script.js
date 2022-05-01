@@ -1,14 +1,14 @@
 //<BUTTONS>
-const startNextButton = document.getElementById("question1-Btn");
-const finishNextButton = document.getElementById("question6-Btn");
+const genderButton = document.getElementById("gender-Btn");
+const birthdayButton = document.getElementById("birthday-Btn");
 const callButton = document.querySelector(".call");
 //</BUTTONS>
 //<SECTIONS & BLOCKS>
 const banner = document.querySelector(".banner"); // section with banner
 const info = document.querySelector(".info"); // section with info
-const monthsBlock = document.getElementById("months"); //SELECT MONTH
-const yearsBlock = document.getElementById("years"); //SELECT YEARS
-const daysBlock = document.getElementById("days"); //SELECT DAYS
+const monthsSelect = document.getElementById("months-select"); //SELECT MONTH
+const yearsSelect = document.getElementById("years-select"); //SELECT YEARS
+const daysSelect = document.getElementById("days-select"); //SELECT DAYS
 const completeLine = document.querySelector(".red-line"); // section with redline statusbar
 const formLine = document.querySelector(".form"); // FROMS LINE
 const dataTable = document.querySelector(".form__data").querySelector("table"); //DATA TABLE
@@ -24,90 +24,40 @@ const attention = document.querySelector(".please-make-choice");
 const signBlock = document.querySelector(".with-sign");
 signBlock.style.display = "none";
 
+const DAYS_BY_DEFAULT = 31;
+
 //creating and adding days to select
-function update_days_count(m = 1, y = 2000, current) {
-  let daysInMonth;
-  if (m === 2) {
-    if (isYearLeap(y)) {
-      daysInMonth = 29;
-    } else {
-      daysInMonth = 28;
-    }
-  } else if (m === 4 || m === 6 || m === 9 || m === 11) {
-    daysInMonth = 30;
-  } else {
-    daysInMonth = 31;
-  }
 
-  if (current > daysInMonth) {
-    attention.style.display = "block";
-    finishNextButton.style.display = "none";
-    signBlock.style.display = "none";
-    daysBlock.innerHTML = "";
-
-    daysBlock.style.color = "#000000";
-    const dayOption = document.createElement("option");
-    dayOption.setAttribute("disabled", "disabled");
-    dayOption.value = 0;
-    dayOption.innerText = "День";
-    daysBlock.prepend(dayOption);
-    daysBlock.selectedIndex = 0;
-
-    for (let day = 1; day <= daysInMonth; day++) {
-      let option = document.createElement("option");
-      option.value = day;
-      if (day < 10) {
-        daysBlock.appendChild(option).innerText = "0" + day;
-      } else {
-        daysBlock.appendChild(option).innerText = day;
-      }
-    }
-  } else {
-    daysBlock.querySelectorAll("option").length <= 0;
-    for (let day = 1; day <= 31; day++) {
-      let option = document.createElement("option");
-      option.value = day;
-      if (day < 10) {
-        daysBlock.appendChild(option).innerText = "0" + day;
-      } else {
-        daysBlock.appendChild(option).innerText = day;
-      }
-    }
-  }
-}
-
-update_days_count(); //default - 1 month 2000 year
+addDaysByDefault();
 
 //creating and adding months to select
 for (let month = 1; month <= 12; month++) {
   let option = document.createElement("option");
   option.value = month;
   if (month < 10) {
-    monthsBlock.appendChild(option).innerText = "0" + month;
+    monthsSelect.appendChild(option).innerText = "0" + month;
   } else {
-    monthsBlock.appendChild(option).innerText = month;
+    monthsSelect.appendChild(option).innerText = month;
   }
 }
 //creating and adding years to select
 for (let year = 2022; year >= 1920; year--) {
   let option = document.createElement("option");
   option.value = year;
-  yearsBlock.appendChild(option).innerText = year;
+  yearsSelect.appendChild(option).innerText = year;
 }
 
 //<LISTENERS>
-//MAIN WINDOWS CLICK LISTENER
 document.addEventListener("click", (event) => {
   const elementID = event.target.id;
   const elementFor = event.target.getAttribute("for");
-
   if (
     elementID === "male" ||
     elementFor === "male" ||
     elementID === "female" ||
     elementFor === "female"
   ) {
-    startNextButton.style.display = "flex";
+    displayFlex(genderButton);
   }
 
   if (
@@ -121,8 +71,8 @@ document.addEventListener("click", (event) => {
     elementFor === "day"
   ) {
     setTimeout(() => {
-      moveTo(3);
-      moveRedLine(3);
+      moveFormLineTo(3);
+      moveRedStatusLineTo(3);
     }, 300);
   }
 
@@ -135,8 +85,8 @@ document.addEventListener("click", (event) => {
     elementFor === "never"
   ) {
     setTimeout(() => {
-      moveTo(4);
-      moveRedLine(4);
+      moveFormLineTo(4);
+      moveRedStatusLineTo(4);
     }, 300);
   }
 
@@ -149,8 +99,8 @@ document.addEventListener("click", (event) => {
     elementFor === "plans-never"
   ) {
     setTimeout(() => {
-      moveTo(5);
-      moveRedLine(5);
+      moveFormLineTo(5);
+      moveRedStatusLineTo(5);
     }, 300);
   }
 
@@ -165,104 +115,172 @@ document.addEventListener("click", (event) => {
     elementFor === "all"
   ) {
     setTimeout(() => {
-      moveTo(6);
-      moveRedLine(6);
+      moveFormLineTo(6);
+      moveRedStatusLineTo(6);
     }, 300);
   }
 });
-//NEXT BUTTIN LISTENERS
-document.querySelector(".form-window").style.cssText = "margin-top: 25px";
-startNextButton.addEventListener("click", () => {
+genderButton.addEventListener("click", () => {
   if (window.innerWidth > 320) {
     document.querySelector(".form-window").style.cssText = "margin-top: 102px";
   } else {
     document.querySelector(".form-window").style.cssText = "margin-top: 25px";
   }
-  moveTo(2);
-  banner.style.display = "none";
-  info.style.display = "none";
-  completeLine.style.display = "block";
+  moveFormLineTo(2);
+  displayNone(banner, info);
+  displayBlock(completeLine);
   setTimeout(() => {
-    moveRedLine(2);
+    moveRedStatusLineTo(2);
   }, 100);
 });
 
-finishNextButton.addEventListener("click", (event) => {
+birthdayButton.addEventListener("click", (event) => {
   event.preventDefault();
-  moveTo(7);
-  moveRedLine(7);
-  completeLine.style.display = "none";
+  moveFormLineTo(7);
+  moveRedStatusLineTo(7);
+  displayNone(completeLine);
   startLoading();
 });
 //CALL BYTTON LISTENER
 callButton.addEventListener("click", () => {
   getResponse();
-  moveTo(9);
+  moveFormLineTo(9);
 });
 
 // CHECK IS THE ALL OF SELECTS ARE NOT EMPTY
-daysBlock.onclick = () => {
-  console.log(daysBlock.querySelectorAll("option").length);
-};
-daysBlock.onchange = (event) => {
-  isAllSelected();
-  const day = Number(daysBlock.value);
-};
-monthsBlock.onchange = (event) => {
-  isAllSelected();
 
-  const day = Number(daysBlock.value);
-  const month = Number(monthsBlock.value);
-  const year = Number(yearsBlock.value);
-  update_days_count(month, year, day);
-};
-yearsBlock.onchange = (event) => {
+daysSelect.onchange = () => {
   isAllSelected();
+};
 
-  const day = Number(daysBlock.value);
-  const month = Number(monthsBlock.value);
-  const year = Number(yearsBlock.value);
-  update_days_count(month, year, day);
+monthsSelect.onchange = () => {
+  const selectedDay = Number(daysSelect.value);
+  const selectedMonth = Number(monthsSelect.value);
+  const selectedYear = Number(yearsSelect.value);
+  const daysInSelectedMonth = countDaysInMonth(selectedMonth, selectedYear);
+  updateDaysSelect(daysInSelectedMonth, selectedDay);
+  isAllSelected();
+};
+
+yearsSelect.onchange = () => {
+  const selectedDay = Number(daysSelect.value);
+  const selectedMonth = Number(monthsSelect.value);
+  const selectedYear = Number(yearsSelect.value);
+  const daysInSelectedMonth = countDaysInMonth(selectedMonth, selectedYear);
+  updateDaysSelect(daysInSelectedMonth, selectedDay);
+  isAllSelected();
 };
 //</LISTENERS>
 
-//<FUNCTIONS>
-function moveTo(num) {
+//<METHODS>
+function displayFlex() {
+  for (let i = 0; i < arguments.length; i++) {
+    arguments[i].style.display = "flex";
+  }
+}
+
+function displayNone() {
+  for (let i = 0; i < arguments.length; i++) {
+    arguments[i].style.display = "none";
+  }
+}
+
+function displayBlock() {
+  for (let i = 0; i < arguments.length; i++) {
+    arguments[i].style.display = "block";
+  }
+}
+
+function addDaysByDefault() {
+  for (let day = 1; day <= DAYS_BY_DEFAULT; day++) {
+    let option = document.createElement("option");
+    option.value = day;
+    if (day < 10) {
+      daysSelect.appendChild(option).innerText = "0" + day;
+    } else {
+      daysSelect.appendChild(option).innerText = day;
+    }
+  }
+}
+
+function updateDaysSelect(countDays, selectedDay) {
+  daysSelect.innerHTML = "";
+  const selectedOption = document.createElement("option");
+  if (countDays < selectedDay || selectedDay === 0) {
+    selectedOption.value = 0;
+    selectedOption.innerText = "День";
+    daysSelect.style.cssText = "color: black;";
+    selectedOption.setAttribute("disabled", "disabled");
+    selectedOption.setAttribute("selected", "selected");
+    displayNone(signBlock, birthdayButton);
+  } else {
+    selectedOption.value = selectedDay;
+    if (selectedDay < 10) {
+      selectedOption.innerText = "0" + selectedDay;
+    } else {
+      selectedOption.innerText = selectedDay;
+    }
+    selectedOption.setAttribute("disabled", "disabled");
+    selectedOption.setAttribute("selected", "selected");
+  }
+  daysSelect.append(selectedOption);
+  for (let day = 1; day <= countDays; day++) {
+    let option = document.createElement("option");
+    option.value = day;
+    if (day < 10) {
+      daysSelect.appendChild(option).innerText = "0" + day;
+    } else {
+      daysSelect.appendChild(option).innerText = day;
+    }
+  }
+}
+
+function countDaysInMonth(month, year = 2000) {
+  return month === 2
+    ? isYearLeap(year)
+      ? 29
+      : 28
+    : month === 4 || month === 6 || month === 9 || month === 11
+    ? 30
+    : 31;
+}
+
+function moveFormLineTo(num) {
   formLine.style.left = (num - 1) * -100 + "%";
 }
 
-function moveRedLine(num) {
+function moveRedStatusLineTo(num) {
   num > 6
-    ? (completeLine.style.display = "none")
+    ? displayNone(completeLine)
     : (redLine.style.left = (6 - num) * (-100 / 5) + "%");
 }
 
 function isAllSelected() {
-  if (monthsBlock.value !== "0") {
-    monthsBlock.style.color = "#315DFA";
+  if (monthsSelect.value !== "0") {
+    monthsSelect.style.color = "#315DFA";
   }
-  if (yearsBlock.value !== "0") {
-    yearsBlock.style.color = "#315DFA";
+  if (yearsSelect.value !== "0") {
+    yearsSelect.style.color = "#315DFA";
   }
-  if (daysBlock.value !== "0") {
-    daysBlock.style.color = "#315DFA";
+  if (daysSelect.value !== "0") {
+    daysSelect.style.color = "#315DFA";
   }
   if (
-    monthsBlock.value !== "0" &&
-    yearsBlock.value !== "0" &&
-    daysBlock.value !== "0"
+    monthsSelect.value !== "0" &&
+    yearsSelect.value !== "0" &&
+    daysSelect.value !== "0"
   ) {
-    signBlock.style.display = "block";
+    displayBlock(signBlock);
     signBlock.querySelectorAll("img").forEach((img) => {
       img.style.opacity = "0";
     });
-    let sign = whatZodiacSign(monthsBlock.value, daysBlock.value);
+    let sign = whatZodiacSign(monthsSelect.value, daysSelect.value);
     document.getElementById(sign.name).style.opacity = "1";
     signBlock.querySelector("p").innerHTML = sign.nameRus;
-    attention.style.display = "none";
-    finishNextButton.style.display = "flex";
+    displayNone(attention);
+    displayFlex(birthdayButton);
   } else {
-    attention.style.display = "block";
+    displayBlock(attention);
   }
 }
 
@@ -348,46 +366,45 @@ function startLoading() {
     const loadingInterval = setInterval(() => {
       const barWidth = loadingBar.clientWidth; // FULL BAR
       const loadingOffset = loadingBar.querySelector("div").offsetLeft;
-
       const percent = Math.trunc(100 - (-loadingOffset / barWidth) * 100);
-
       if ((percent > 0) & (percent < 100 / 7)) {
-        loadingStatuses[0].style.display = "flex";
+        displayFlex(loadingStatuses[0]);
       }
       if ((percent > 100 / 7) & (percent < 2 * (100 / 7))) {
-        loadingStatuses[0].querySelector("span").style.display = "block";
-        loadingStatuses[1].style.display = "flex";
+        displayBlock(loadingStatuses[0].querySelector("span"));
+        displayFlex(loadingStatuses[1]);
       }
       if ((percent > 2 * (100 / 7)) & (percent < 3 * (100 / 7))) {
-        loadingStatuses[1].querySelector("span").style.display = "block";
-        loadingStatuses[2].style.display = "flex";
+        displayBlock(loadingStatuses[1].querySelector("span"));
+        displayFlex(loadingStatuses[2]);
       }
       if ((percent > 3 * (100 / 7)) & (percent < 4 * (100 / 7))) {
-        loadingStatuses[2].querySelector("span").style.display = "block";
-        loadingStatuses[3].style.display = "flex";
+        displayBlock(loadingStatuses[2].querySelector("span"));
+        displayFlex(loadingStatuses[3]);
       }
       if ((percent > 4 * (100 / 7)) & (percent < 5 * (100 / 7))) {
-        loadingStatuses[3].querySelector("span").style.display = "block";
-        loadingStatuses[4].style.display = "flex";
+        displayBlock(loadingStatuses[3].querySelector("span"));
+        displayFlex(loadingStatuses[4]);
       }
       if ((percent > 5 * (100 / 7)) & (percent < 6 * (100 / 7))) {
-        loadingStatuses[4].querySelector("span").style.display = "block";
-        loadingStatuses[5].style.display = "flex";
+        displayBlock(loadingStatuses[4].querySelector("span"));
+        displayFlex(loadingStatuses[5]);
       }
       if ((percent > 6 * (100 / 7)) & (percent < 7 * (100 / 7))) {
-        loadingStatuses[5].querySelector("span").style.display = "block";
-        loadingStatuses[6].style.display = "flex";
-        loadingStatuses[7].style.display = "flex";
+        displayBlock(loadingStatuses[5].querySelector("span"));
+        displayFlex(loadingStatuses[6], loadingStatuses[7]);
       }
       if (loadingBar.querySelector("div").offsetLeft === 0) {
-        loadingStatuses[6].querySelector("span").style.display = "block";
-        document.querySelector(".recording").style.display = "none";
-        document.querySelector(".done").style.display = "block";
+        displayBlock(
+          loadingStatuses[6].querySelector("span"),
+          document.querySelector(".done")
+        );
+        displayNone(document.querySelector(".recording"));
         clearInterval(loadingInterval);
         setTimeout(() => {
           console.log("move next");
-          moveTo(8);
-        }, 2000);
+          moveFormLineTo(8);
+        }, 1500);
         console.log("loading animation is done.");
       }
       loadingBar.querySelector("p").innerText = percent + "%";
@@ -420,4 +437,4 @@ async function getResponse() {
       }
     });
 }
-//</FUNCTIONS>
+//</METHODS>

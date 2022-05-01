@@ -173,7 +173,7 @@ body {
   min-width: 100%;
 }
 
-.form__block.question1 .form__inputs {
+.form__block.gender .form__inputs {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -184,16 +184,16 @@ body {
   gap: 35px;
 }
 
-.form__block.question1 .form__inputs input,
-.form__block.question1 .form__inputs label {
+.form__block.gender .form__inputs input,
+.form__block.gender .form__inputs label {
   width: auto;
 }
 
-.form__block.question6 .form__inputs {
+.form__block.birthday .form__inputs {
   gap: 10px;
 }
 
-.form__block.question6 .form__inputs select {
+.form__block.birthday .form__inputs select {
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -210,12 +210,12 @@ body {
   position: relative;
 }
 
-.form__block.question6 .form__inputs select option {
+.form__block.birthday .form__inputs select option {
   padding: 20px 0;
   color: red;
 }
 
-.form__block.question6 .form__inputs .please-make-choice {
+.form__block.birthday .form__inputs .please-make-choice {
   text-align: center;
   display: none;
   padding: 10px 0;
@@ -229,7 +229,7 @@ body {
   font-weight: 300;
 }
 
-.form__block.question6 .with-sign {
+.form__block.birthday .with-sign {
   width: 100%;
   height: 82px;
   margin: 0 auto;
@@ -239,7 +239,7 @@ body {
   transition: all 0.3s;
 }
 
-.form__block.question6 .with-sign img {
+.form__block.birthday .with-sign img {
   -webkit-backdrop-filter: box-shadow(2px 2px 2px black);
           backdrop-filter: box-shadow(2px 2px 2px black);
   left: 50%;
@@ -254,7 +254,7 @@ body {
   z-index: 10;
 }
 
-.form__block.question6 .with-sign p {
+.form__block.birthday .with-sign p {
   text-align: center;
   width: 100%;
   font-size: 10px;
@@ -352,7 +352,7 @@ body {
   color: #419330;
 }
 
-.form .call-n-listen {
+.form .result {
   min-width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -364,21 +364,21 @@ body {
   gap: 20px;
 }
 
-.form .call-n-listen p {
+.form .result p {
   font-size: 14px;
 }
 
-.form .call-n-listen__title {
+.form .result__title {
   color: #343b4d;
   font-weight: 500;
 }
 
-.form .call-n-listen__congrad {
+.form .result__congrad {
   color: #315dfa;
   font-weight: 500;
 }
 
-.form .call-n-listen div {
+.form .result div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -389,13 +389,13 @@ body {
   gap: 5px;
 }
 
-.form .call-n-listen div p {
+.form .result div p {
   color: #343b4d;
   font-weight: 400;
   font-size: 14px;
 }
 
-.form .call-n-listen span {
+.form .result span {
   color: #343b4d;
   font-size: 18px;
   font-weight: 500;

@@ -43,7 +43,7 @@
         </section>
         <section class="form-window">
           <div class="form">
-            <div class="form__block question1">
+            <div class="form__block gender">
               <p class="form__title">Укажите свой пол:</p>
               <form class="form__inputs">
                 <div>
@@ -55,12 +55,10 @@
                   <label for="male">Мужчина</label>
                 </div>
               </form>
-              <button class="form__send-button" id="question1-Btn">
-                Далее
-              </button>
+              <button class="form__send-button" id="gender-Btn">Далее</button>
             </div>
 
-            <div class="form__block question2">
+            <div class="form__block">
               <p class="form__title">
                 В какое время суток Вы чувствуете себя наиболее комфортно?
               </p>
@@ -84,7 +82,7 @@
               </form>
             </div>
 
-            <div class="form__block question3">
+            <div class="form__block">
               <p class="form__title">
                 Подскажите, мучает ли Вас бессонница последнее время?
               </p>
@@ -104,7 +102,7 @@
               </form>
             </div>
 
-            <div class="form__block question4">
+            <div class="form__block">
               <p class="form__title">
                 Чувствуете ли Вы в последнее время, что вам никак не удается
                 осуществить ваши планы?
@@ -125,7 +123,7 @@
               </form>
             </div>
 
-            <div class="form__block question5">
+            <div class="form__block">
               <p class="form__title">Какой Вы видите свою жизнь через 5 лет?</p>
               <form class="form__inputs">
                 <div>
@@ -147,16 +145,16 @@
               </form>
             </div>
 
-            <div class="form__block question6">
+            <div class="form__block birthday">
               <p class="form__title">Введите дату своего рождения:</p>
               <form class="form__inputs">
-                <select class="days" name="days" id="days">
+                <select class="days-select" name="days-select" id="days-select">
                   <option value="0" disabled selected>День</option>
                 </select>
-                <select class="months" name="months" id="months">
+                <select class="months-select" name="months-select" id="months-select">
                   <option value="0" disabled selected>Месяц</option>
                 </select>
-                <select class="years" name="years" id="years">
+                <select class="years-select" name="years-select" id="years-select">
                   <option value="0" disabled selected>Год</option>
                 </select>
                 <div class="please-make-choice">Пожалуйста, выберите ответ</div>
@@ -192,13 +190,13 @@
                   <p></p>
                 </div>
 
-                <button class="form__send-button" id="question6-Btn">
+                <button class="form__send-button" id="birthday-Btn">
                   Далее
                 </button>
               </form>
             </div>
 
-            <div class="loading">
+            <div class="form__block loading">
               <p class="loading__title">Обработка Ваших данных:</p>
               <div class="loading__bar">
                 <p>0%</p>
@@ -238,9 +236,9 @@
               </div>
             </div>
 
-            <div class="call-n-listen">
-              <p class="call-n-listen__title">Спасибо за Ваши ответы!</p>
-              <p class="call-n-listen__congrad">
+            <div class="form__block result">
+              <p class="result__title">Спасибо за Ваши ответы!</p>
+              <p class="result__congrad">
                 Поздравляем! Прослушать свой персональный гороскоп возможно уже
                 сейчас!
               </p>
@@ -261,7 +259,7 @@
               </button>
             </div>
 
-            <div class="form__data">
+            <div class="form__block form__data">
               <table>
                 <tr>
                   <td>KEY</td>
