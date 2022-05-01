@@ -269,22 +269,15 @@ function moveRedStatusLineTo(num) {
 }
 //CHECK ARE ALL <SELECTS> IN BIRTHDAY_BLOCK SELECTED
 function areAllSelected() {
-  if (monthsSelect.value !== "0") {
-    monthsSelect.style.color = "#315DFA";
-  }
-  if (yearsSelect.value !== "0") {
-    yearsSelect.style.color = "#315DFA";
-  }
-  if (daysSelect.value !== "0") {
-    daysSelect.style.color = "#315DFA";
-  }
+  if (monthsSelect.value !== "0") monthsSelect.style.color = "#315DFA";
+  if (yearsSelect.value !== "0") yearsSelect.style.color = "#315DFA";
+  if (daysSelect.value !== "0") daysSelect.style.color = "#315DFA";
   if (
     monthsSelect.value !== "0" &&
     yearsSelect.value !== "0" &&
     daysSelect.value !== "0"
   ) {
     const sign = getZodiacSign(monthsSelect.value, daysSelect.value);
-
     createBlockBySign(sign);
     displayNone(warning);
     displayFlex(birthdayButton, signsBlock);
