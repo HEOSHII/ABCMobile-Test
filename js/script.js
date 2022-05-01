@@ -139,7 +139,6 @@ birthdayButton.addEventListener("click", (event) => {
 });
 //CALL BYTTON LISTENER
 callButton.addEventListener("click", () => {
-  getResponse();
   moveFormLineTo(9);
 });
 
