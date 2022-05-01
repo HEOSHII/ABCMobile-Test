@@ -416,20 +416,21 @@ function isYearLeap(year) {
     : false;
 }
 
-async function getResponse() {
-  fetch("https://swapi.dev/api/people/1/")
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      for (key in data) {
-        dataTable.innerHTML += `<tbody>
-                    <tr>
-                        <td>${key}</td>
-                        <td>${data[key]}</td>
-                    </tr>
-                </tbody>`;
-      }
-    });
+function createTable(data) {
+  for (key in data) {
+    dataTable.innerHTML += `<tbody>
+                                <tr>
+                                    <td>${key}</td>
+                                    <td>${data[key]}</td>
+                                </tr>
+                            </tbody>`;
+  }
 }
 //</METHODS>
+
+//FETCH
+fetch("https://swapi.dev/api/people/1/")
+  .then((response) => response.text())
+  .then((response) => {
+    createTable(JSON.parse(response));
+  });
