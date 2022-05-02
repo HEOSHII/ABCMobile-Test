@@ -209,12 +209,14 @@ yearsSelect.onchange = (event) => {
 comebackButton.onclick = moveBack;
 
 answersOpenButton.onclick = () => {
-  mainTableResult.style.cssText = "left: 0; backdrop-filter: blur(5px);";
+  mainTableResult.style.cssText =
+    "left: 0; backdrop-filter: blur(5px); opacity: 1; pointer-events: all;";
   body.style.cssText = "overflow: hidden;";
 };
 
 answersCloseButton.onclick = () => {
-  mainTableResult.style.cssText = "left: 100%; backdrop-filter: blur(0);";
+  mainTableResult.style.cssText =
+    "left: 10%; backdrop-filter: blur(0); opacity: 0; pointer-events: none;";
   body.style.cssText = "overflow: auto;";
 };
 //=========== /LISTENERS

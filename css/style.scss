@@ -484,7 +484,9 @@ body {
 .answers-objects {
   position: fixed;
   top: 0;
-  left: 100%;
+  left: 10%;
+  opacity: 0;
+  pointer-events: none;
   min-width: 100%;
   min-height: 100vh;
   height: 100%;
@@ -493,7 +495,6 @@ body {
   z-index: 20;
   justify-content: center;
   align-items: center;
-  // display: none;
   transition: all 0.4s;
   display: flex;
   .table {
