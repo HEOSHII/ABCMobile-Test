@@ -1,4 +1,5 @@
 // ========== BUTTONS
+const body = document.querySelector("body");
 const genderButton = document.getElementById("gender-Btn");
 const birthdayButton = document.getElementById("birthday-Btn");
 const callButton = document.querySelector(".call");
@@ -26,6 +27,7 @@ const warning = document.querySelector(".warning");
 const statusbar = document.querySelector(".statusbar");
 const redLine = document.querySelector(".statusbar__red");
 const loadingBar = document.querySelector(".loading__bar");
+const loadingBarGreen = loadingBar.querySelector(".loading__bar-green");
 const loadingStatuses = document.querySelectorAll(".loading__statuses p");
 const DAYS_BY_DEFAULT = 31;
 const result = {
@@ -72,8 +74,8 @@ document.addEventListener("click", (event) => {
   ) {
     setTimeout(() => {
       formLineStatus = 3;
-      moveFormLineTo(formLineStatus);
-      moveRedStatusLineTo(formLineStatus);
+      moveFormLineTo();
+      moveRedStatusLineTo();
     }, 200);
 
     result.updateResult(elementName, elementID);
@@ -82,8 +84,8 @@ document.addEventListener("click", (event) => {
   if (elementID === "yes" || elementID === "no" || elementID === "never") {
     setTimeout(() => {
       formLineStatus = 4;
-      moveFormLineTo(formLineStatus);
-      moveRedStatusLineTo(formLineStatus);
+      moveFormLineTo();
+      moveRedStatusLineTo();
     }, 200);
   }
 
@@ -94,8 +96,8 @@ document.addEventListener("click", (event) => {
   ) {
     setTimeout(() => {
       formLineStatus = 5;
-      moveFormLineTo(formLineStatus);
-      moveRedStatusLineTo(formLineStatus);
+      moveFormLineTo();
+      moveRedStatusLineTo();
     }, 200);
 
     result.updateResult(elementName, elementID);
@@ -109,8 +111,8 @@ document.addEventListener("click", (event) => {
   ) {
     setTimeout(() => {
       formLineStatus = 6;
-      moveFormLineTo(formLineStatus);
-      moveRedStatusLineTo(formLineStatus);
+      moveFormLineTo();
+      moveRedStatusLineTo();
     }, 200);
     result.updateResult(elementName, elementID);
   }
@@ -124,7 +126,7 @@ genderButton.addEventListener("click", () => {
   }
   displayFlex(comebackButton);
   formLineStatus = 2;
-  moveFormLineTo(formLineStatus);
+  moveFormLineTo();
   displayNone(banner, info);
   displayBlock(statusbar);
   setTimeout(() => {
@@ -136,19 +138,30 @@ birthdayButton.addEventListener("click", (event) => {
   event.preventDefault();
   displayNone(comebackButton);
   formLineStatus = 7;
-  moveFormLineTo(formLineStatus);
-  moveRedStatusLineTo(formLineStatus);
+  moveFormLineTo();
+  moveRedStatusLineTo();
   displayNone(statusbar);
+  let birthdayDay = daysSelect.value;
+  let birthdayMonth = monthsSelect.value;
+  let birthdayYear = yearsSelect.value;
+
+  if (Number(birthdayDay) < 10) {
+    birthdayDay = "0" + birthdayDay;
+  }
+  if (Number(birthdayMonth) < 10) {
+    birthdayMonth = "0" + birthdayMonth;
+  }
+
   result.updateResult(
     "birthday",
-    `${daysSelect.value}.${monthsSelect.value}.${yearsSelect.value}`
+    `${birthdayDay}.${birthdayMonth}.${birthdayYear}`
   );
-  startLoading();
   createAnswersTable(result);
+  startLoading();
 });
 callButton.addEventListener("click", () => {
   formLineStatus = 9;
-  moveFormLineTo(formLineStatus);
+  moveFormLineTo();
 });
 
 daysSelect.onclick = (event) => {
@@ -193,8 +206,17 @@ yearsSelect.onchange = (event) => {
   areAllSelected();
 };
 
-answersOpenButton.onclick = () => displayFlex(mainTableResult);
-answersCloseButton.onclick = () => displayNone(mainTableResult);
+comebackButton.onclick = moveBack;
+
+answersOpenButton.onclick = () => {
+  mainTableResult.style.cssText = "left: 0; backdrop-filter: blur(5px);";
+  body.style.cssText = "overflow: hidden;";
+};
+
+answersCloseButton.onclick = () => {
+  mainTableResult.style.cssText = "left: 100%; backdrop-filter: blur(0);";
+  body.style.cssText = "overflow: auto;";
+};
 //=========== /LISTENERS
 //=========== METHODS
 //SHOW BLOCK(BLOCKS) WITH FLEX
@@ -270,11 +292,9 @@ function countDaysInMonth(month, year = 2000) {
     : 31;
 }
 //MOVE MAIN QUESTION LINE
-function moveFormLineTo(num) {
-  formLine.style.left = (num - 1) * -100 + "%";
+function moveFormLineTo() {
+  formLine.style.left = (formLineStatus - 1) * -100 + "%";
 }
-
-comebackButton.onclick = moveBack;
 
 function moveBack() {
   --formLineStatus;
@@ -282,15 +302,15 @@ function moveBack() {
     displayBlock(info, banner);
     displayNone(statusbar, comebackButton);
   }
-  moveFormLineTo(formLineStatus);
-  moveRedStatusLineTo(formLineStatus);
+  moveFormLineTo();
+  moveRedStatusLineTo();
 }
 
 //MOVE STATUS LINE
-function moveRedStatusLineTo(num) {
-  num > 6
+function moveRedStatusLineTo() {
+  formLineStatus > 6
     ? displayNone(statusbar)
-    : (redLine.style.left = (6 - num) * (-100 / 5) + "%");
+    : (redLine.style.left = (6 - formLineStatus) * (-100 / 5) + "%");
 }
 //CHECK ARE ALL <SELECTS> IN BIRTHDAY_BLOCK SELECTED
 function areAllSelected() {
@@ -372,50 +392,69 @@ function getZodiacSign(month, day) {
 //START LOADING
 function startLoading() {
   setTimeout(() => {
-    loadingBar.querySelector("div").classList.add("animated");
+    loadingBarGreen.classList.add("animated");
     console.log("start loading animation...");
-    document.querySelector("body").style.cssText = "cursor: progress;";
+    body.style.cssText = "cursor: progress;";
     const loadingInterval = setInterval(() => {
       const barWidth = loadingBar.clientWidth; // FULL BAR
-      const loadingOffset = loadingBar.querySelector("div").offsetLeft;
+      const loadingOffset = loadingBarGreen.offsetLeft;
       const percent = Math.trunc(100 - (-loadingOffset / barWidth) * 100);
-      if ((percent > 0) & (percent < 100 / 7)) {
+      const numberOfStatuses = 7;
+      if ((percent > 0) & (percent < 100 / numberOfStatuses)) {
         displayFlex(loadingStatuses[0]);
       }
-      if ((percent > 100 / 7) & (percent < 2 * (100 / 7))) {
-        displayBlock(loadingStatuses[0].querySelector("span"));
+      if (
+        (percent > 100 / numberOfStatuses) &
+        (percent < 2 * (100 / numberOfStatuses))
+      ) {
+        displayBlock(loadingStatuses[0].querySelector(".status-done"));
         displayFlex(loadingStatuses[1]);
       }
-      if ((percent > 2 * (100 / 7)) & (percent < 3 * (100 / 7))) {
-        displayBlock(loadingStatuses[1].querySelector("span"));
+      if (
+        (percent > 2 * (100 / numberOfStatuses)) &
+        (percent < 3 * (100 / numberOfStatuses))
+      ) {
+        displayBlock(loadingStatuses[1].querySelector(".status-done"));
         displayFlex(loadingStatuses[2]);
       }
-      if ((percent > 3 * (100 / 7)) & (percent < 4 * (100 / 7))) {
-        displayBlock(loadingStatuses[2].querySelector("span"));
+      if (
+        (percent > 3 * (100 / numberOfStatuses)) &
+        (percent < 4 * (100 / numberOfStatuses))
+      ) {
+        displayBlock(loadingStatuses[2].querySelector(".status-done"));
         displayFlex(loadingStatuses[3]);
       }
-      if ((percent > 4 * (100 / 7)) & (percent < 5 * (100 / 7))) {
-        displayBlock(loadingStatuses[3].querySelector("span"));
+      if (
+        (percent > 4 * (100 / numberOfStatuses)) &
+        (percent < 5 * (100 / numberOfStatuses))
+      ) {
+        displayBlock(loadingStatuses[3].querySelector(".status-done"));
         displayFlex(loadingStatuses[4]);
       }
-      if ((percent > 5 * (100 / 7)) & (percent < 6 * (100 / 7))) {
-        displayBlock(loadingStatuses[4].querySelector("span"));
+      if (
+        (percent > 5 * (100 / numberOfStatuses)) &
+        (percent < 6 * (100 / numberOfStatuses))
+      ) {
+        displayBlock(loadingStatuses[4].querySelector(".status-done"));
         displayFlex(loadingStatuses[5]);
       }
-      if ((percent > 6 * (100 / 7)) & (percent < 7 * (100 / 7))) {
-        displayBlock(loadingStatuses[5].querySelector("span"));
+      if (
+        (percent > 6 * (100 / numberOfStatuses)) &
+        (percent < 7 * (100 / numberOfStatuses))
+      ) {
+        displayBlock(loadingStatuses[5].querySelector(".status-done"));
         displayFlex(loadingStatuses[6], loadingStatuses[7]);
       }
       if (loadingBar.querySelector("div").offsetLeft === 0) {
         displayBlock(
-          loadingStatuses[6].querySelector("span"),
+          loadingStatuses[6].querySelector(".status-done"),
           document.querySelector(".done")
         );
         displayNone(document.querySelector(".recording"));
         clearInterval(loadingInterval);
         formLineStatus = 8;
         setTimeout(() => {
-          moveFormLineTo(8);
+          moveFormLineTo();
         }, 1500);
         console.log("loading animation is done.");
         document.querySelector("body").style.cssText = "cursor: default;";

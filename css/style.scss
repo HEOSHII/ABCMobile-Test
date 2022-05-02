@@ -83,7 +83,7 @@ body {
   gap: 10px;
   &__title {
     font-weight: 500;
-    color: #315df9;
+    color: var(--color-blue);
     font-size: 17px;
     line-height: 22px;
   }
@@ -199,7 +199,7 @@ body {
         position: relative;
         option {
           padding: 20px 0;
-          color: red;
+          color: #d0060e;
         }
       }
       .warning {
@@ -274,10 +274,6 @@ body {
             loading4 1s ease-out forwards 6.3s,
             loading5 3s ease-out forwards 7.4s, loading6 4s ease forwards 10.5s,
             loading7 12s ease-out forwards 14.5s;
-
-          // animation: loading7 1s ease-out forwards;
-
-          // animation: loading 20s ease-out forwards;
         }
       }
     }
@@ -488,15 +484,18 @@ body {
 .answers-objects {
   position: fixed;
   top: 0;
+  left: 100%;
   min-width: 100%;
   min-height: 100vh;
   height: 100%;
   background: rgba(255, 255, 255, 0.777);
-  backdrop-filter: blur(5px);
+  // backdrop-filter: blur(5px);
   z-index: 20;
   justify-content: center;
   align-items: center;
-  display: none;
+  // display: none;
+  transition: all 0.4s;
+  display: flex;
   .table {
     display: grid;
     grid-template-columns: 1fr 1fr;
