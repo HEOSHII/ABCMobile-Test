@@ -9,6 +9,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+:root {
+  --radius: 0.2rem;
+  --color-blue: #315dfa;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -19,7 +24,7 @@ body {
 .header {
   width: 100%;
   height: 57px;
-  background: #315dfa;
+  background: var(--color-blue);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,6 +63,7 @@ body {
     .main {
       width: 100%;
       height: 100%;
+      border-radius: var(--radius);
     }
     .zodiac {
       height: 100%;
@@ -97,6 +103,7 @@ body {
   background: #f3f4f8;
   box-shadow: 0px 4px 2px 0px #0000001a inset;
   position: relative;
+  border-radius: var(--radius);
   overflow: hidden;
   &__red {
     width: 100%;
@@ -114,9 +121,22 @@ body {
   width: max-content;
   margin-top: 30px;
   font-size: 10px;
+  background: none;
+  padding: 10px;
+  border: none;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  transition: all 0.2s;
   cursor: pointer;
+  border-radius: var(--radius);
   &:hover {
-    color: blue;
+    color: var(--color-blue);
+    transform: scale(1.05);
+  }
+  &:active {
+    transform: scale(0.97);
+    transition: none;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -124,6 +144,7 @@ body {
   width: 100%;
   overflow: hidden;
   margin-top: 25px;
+  border-radius: var(--radius);
 }
 
 .form {
@@ -167,7 +188,6 @@ body {
       gap: 10px;
       select {
         cursor: pointer;
-        // color: #315DFA;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -192,6 +212,7 @@ body {
         color: #d0060e;
         font-size: 13px;
         font-weight: 300;
+        border-radius: var(--radius);
       }
     }
     .signs {
@@ -229,6 +250,7 @@ body {
       background: #f3f4f8;
       position: relative;
       overflow: hidden;
+      border-radius: var(--radius);
       p {
         margin-left: 30px;
         font-size: 14px;
@@ -302,7 +324,7 @@ body {
       font-weight: 500;
     }
     &__congrad {
-      color: #315dfa;
+      color: var(--color-blue);
       font-weight: 500;
     }
     div {
@@ -382,7 +404,7 @@ body {
       padding: 10px 5px;
       &:hover {
         background: rgb(235, 235, 235);
-        border-radius: 0.3rem;
+        border-radius: var(--radius);
       }
     }
     label::before {
@@ -401,7 +423,7 @@ body {
       transition: all 0.15s;
     }
     input:checked + label {
-      color: #315dfa;
+      color: var(--color-blue);
       &::before {
         box-shadow: inset 0 0 0 2px white;
       }
@@ -419,25 +441,27 @@ body {
       transform: translateY(-50%);
       pointer-events: none;
       transition: all 0.2s;
+      overflow: hidden;
+      border-radius: var(--radius);
     }
   }
 
-  &__send-button {
+  &__button {
     margin: 13px auto 0 auto;
     font-size: 14px;
     font-weight: bold;
     text-transform: uppercase;
     width: 186px;
     height: 45px;
-    // display: flex;
     display: none;
     justify-content: center;
     align-items: center;
-    background: #315dfa;
-    border: 1px solid #315dfa;
+    background: var(--color-blue);
+    border: 1px solid var(--color-blue);
     color: white;
     cursor: pointer;
     transition: background 0.15s;
+    border-radius: var(--radius);
     &.call {
       width: 100%;
       padding: 0 30px;
@@ -478,6 +502,7 @@ body {
     grid-template-columns: 1fr 1fr;
     border: 3px solid;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius);
   }
   .question,
   .answer {

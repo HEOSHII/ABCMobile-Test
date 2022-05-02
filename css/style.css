@@ -9,6 +9,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+:root {
+  --radius: 0.2rem;
+  --color-blue: #315dfa;
+}
+
 body {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -26,7 +31,7 @@ body {
 .header {
   width: 100%;
   height: 57px;
-  background: #315dfa;
+  background: var(--color-blue);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -79,6 +84,7 @@ body {
 .banner__images .main {
   width: 100%;
   height: 100%;
+  border-radius: var(--radius);
 }
 
 .banner__images .zodiac {
@@ -128,6 +134,7 @@ body {
   -webkit-box-shadow: 0px 4px 2px 0px #0000001a inset;
           box-shadow: 0px 4px 2px 0px #0000001a inset;
   position: relative;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
@@ -149,17 +156,42 @@ body {
   width: max-content;
   margin-top: 30px;
   font-size: 10px;
+  background: none;
+  padding: 10px;
+  border: none;
+  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+          box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  -webkit-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
   cursor: pointer;
+  border-radius: var(--radius);
 }
 
 .comeback:hover {
-  color: blue;
+  color: var(--color-blue);
+  -webkit-transform: scale(1.05);
+      -ms-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.comeback:active {
+  -webkit-transform: scale(0.97);
+      -ms-transform: scale(0.97);
+          transform: scale(0.97);
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none;
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
 .forms-view {
   width: 100%;
   overflow: hidden;
   margin-top: 25px;
+  border-radius: var(--radius);
 }
 
 .form {
@@ -237,6 +269,7 @@ body {
   color: #d0060e;
   font-size: 13px;
   font-weight: 300;
+  border-radius: var(--radius);
 }
 
 .form__block.birthday .signs {
@@ -288,6 +321,7 @@ body {
   background: #f3f4f8;
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius);
 }
 
 .form .loading__bar p {
@@ -375,7 +409,7 @@ body {
 }
 
 .form .result__congrad {
-  color: #315dfa;
+  color: var(--color-blue);
   font-weight: 500;
 }
 
@@ -492,7 +526,7 @@ body {
 
 .form__inputs label:hover {
   background: #ebebeb;
-  border-radius: 0.3rem;
+  border-radius: var(--radius);
 }
 
 .form__inputs label::before {
@@ -517,7 +551,7 @@ body {
 }
 
 .form__inputs input:checked + label {
-  color: #315dfa;
+  color: var(--color-blue);
 }
 
 .form__inputs input:checked + label::before {
@@ -542,9 +576,11 @@ body {
   -webkit-transition: all 0.2s;
   -o-transition: all 0.2s;
   transition: all 0.2s;
+  overflow: hidden;
+  border-radius: var(--radius);
 }
 
-.form__send-button {
+.form__button {
   margin: 13px auto 0 auto;
   font-size: 14px;
   font-weight: bold;
@@ -558,16 +594,17 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: #315dfa;
-  border: 1px solid #315dfa;
+  background: var(--color-blue);
+  border: 1px solid var(--color-blue);
   color: white;
   cursor: pointer;
   -webkit-transition: background 0.15s;
   -o-transition: background 0.15s;
   transition: background 0.15s;
+  border-radius: var(--radius);
 }
 
-.form__send-button.call {
+.form__button.call {
   width: 100%;
   padding: 0 30px;
   position: relative;
@@ -580,7 +617,7 @@ body {
   text-transform: uppercase;
 }
 
-.form__send-button.call img {
+.form__button.call img {
   position: absolute;
   left: 50%;
   -webkit-transform: translateX(-450%);
@@ -588,11 +625,11 @@ body {
           transform: translateX(-450%);
 }
 
-.form__send-button:hover {
+.form__button:hover {
   background: #355adf;
 }
 
-.form__send-button:active {
+.form__button:active {
   -webkit-box-shadow: 0px 4px 10px 0px #00000059 inset;
           box-shadow: 0px 4px 10px 0px #00000059 inset;
   -webkit-transform: scale(0.99);
@@ -627,6 +664,7 @@ body {
   border: 3px solid;
   -webkit-box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
           box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius);
 }
 
 .answers-objects .question,
