@@ -1,5 +1,6 @@
 // ========== BUTTONS
 const body = document.querySelector("body");
+const main = document.querySelector("main");
 const genderButton = document.getElementById("gender-Btn");
 const birthdayButton = document.getElementById("birthday-Btn");
 const callButton = document.querySelector(".call");
@@ -208,17 +209,6 @@ yearsSelect.onchange = (event) => {
 
 comebackButton.onclick = moveBack;
 
-answersOpenButton.onclick = () => {
-  mainTableResult.style.cssText =
-    "left: 0; backdrop-filter: blur(5px); opacity: 1; pointer-events: all;";
-  body.style.cssText = "overflow: hidden;";
-};
-
-answersCloseButton.onclick = () => {
-  mainTableResult.style.cssText =
-    "left: 10%; backdrop-filter: blur(0); opacity: 0; pointer-events: none;";
-  body.style.cssText = "overflow: auto;";
-};
 //=========== /LISTENERS
 //=========== METHODS
 //SHOW BLOCK(BLOCKS) WITH FLEX
@@ -505,3 +495,39 @@ fetch("https://swapi.dev/api/people/1/")
     createTable(JSON.parse(response));
   });
 //=========== /FETCH REQUEST
+
+answersOpenButton.onclick = () => {
+  mainTableResult.style.cssText = "left: 0; opacity: 1; pointer-events: all;";
+  body.style.cssText = "overflow: hidden;";
+};
+
+answersCloseButton.onclick = (event) => {
+  mainTableResult.style.cssText = `left: 10%; opacity: 0; pointer-events: none;`;
+  body.style.cssText = "overflow: auto;";
+};
+
+let firstTounch, currentTounch, lastTouch, startPositionOfELment, pointToClose;
+
+mainTableResult.addEventListener("touchstart", (event) => {
+  event.preventDefault();
+  pointToClose = mainTableResult.clientWidth / 5;
+  firstTounch = event.targetTouches[0].clientX;
+  startPositionOfELment = event.target.offsetLeft;
+});
+
+mainTableResult.addEventListener("touchmove", (event) => {
+  event.preventDefault();
+  currentTounch = event.targetTouches[0].clientX;
+  event.target.style.left =
+    startPositionOfELment + currentTounch - firstTounch + "px";
+});
+
+mainTableResult.addEventListener("touchend", (event) => {
+  lastTouch = event.changedTouches[0].clientX;
+  if (event.target.offsetLeft > pointToClose) {
+    event.target.style.cssText = `left: calc(${lastTouch}px + 10%); opacity: 0; pointer-events: none;`;
+    body.style.cssText = "overflow: auto;";
+  } else {
+    event.target.style.left = startPositionOfELment;
+  }
+});
