@@ -142,6 +142,20 @@ body {
   transition: left 0.4s ease-in-out;
 }
 
+.comeback {
+  display: none;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  margin-top: 30px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.comeback:hover {
+  color: blue;
+}
+
 .forms-view {
   width: 100%;
   overflow: hidden;
@@ -611,6 +625,8 @@ body {
   -ms-grid-columns: 1fr 1fr;
       grid-template-columns: 1fr 1fr;
   border: 3px solid;
+  -webkit-box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+          box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .answers-objects .question,
@@ -621,11 +637,14 @@ body {
 
 .answers-objects .question p,
 .answers-objects .answer p {
-  padding: 10px 30px;
+  padding: 15px 30px;
+  text-align: center;
+  border-bottom: 1px solid;
 }
 
 .answers-objects .question p:first-child,
 .answers-objects .answer p:first-child {
+  font-weight: 600;
   background: #c5e3ee;
   border-bottom: 3px solid;
 }

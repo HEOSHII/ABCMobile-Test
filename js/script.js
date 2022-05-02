@@ -6,6 +6,7 @@ const answersOpenButton = document.querySelector(".answers-table-button");
 const answersCloseButton = document.querySelector(
   ".answers-objects__close-button"
 );
+const comebackButton = document.querySelector(".comeback");
 //========== /BUTTONS
 //========== SECTIONS, BLOCKS, TABLES
 const banner = document.querySelector(".banner");
@@ -32,6 +33,7 @@ const result = {
     this[question] = answer;
   },
 };
+let formLineStatus = 1;
 //========== /OTHER
 
 //creating and adding days to select
@@ -69,18 +71,20 @@ document.addEventListener("click", (event) => {
     elementID === "day"
   ) {
     setTimeout(() => {
-      moveFormLineTo(3);
-      moveRedStatusLineTo(3);
-    }, 300);
+      formLineStatus = 3;
+      moveFormLineTo(formLineStatus);
+      moveRedStatusLineTo(formLineStatus);
+    }, 200);
 
     result.updateResult(elementName, elementID);
   }
 
   if (elementID === "yes" || elementID === "no" || elementID === "never") {
     setTimeout(() => {
-      moveFormLineTo(4);
-      moveRedStatusLineTo(4);
-    }, 300);
+      formLineStatus = 4;
+      moveFormLineTo(formLineStatus);
+      moveRedStatusLineTo(formLineStatus);
+    }, 200);
   }
 
   if (
@@ -89,9 +93,10 @@ document.addEventListener("click", (event) => {
     elementID === "never_feel"
   ) {
     setTimeout(() => {
-      moveFormLineTo(5);
-      moveRedStatusLineTo(5);
-    }, 300);
+      formLineStatus = 5;
+      moveFormLineTo(formLineStatus);
+      moveRedStatusLineTo(formLineStatus);
+    }, 200);
 
     result.updateResult(elementName, elementID);
   }
@@ -103,30 +108,36 @@ document.addEventListener("click", (event) => {
     elementID === "all_in"
   ) {
     setTimeout(() => {
-      moveFormLineTo(6);
-      moveRedStatusLineTo(6);
-    }, 300);
+      formLineStatus = 6;
+      moveFormLineTo(formLineStatus);
+      moveRedStatusLineTo(formLineStatus);
+    }, 200);
     result.updateResult(elementName, elementID);
   }
 });
 
 genderButton.addEventListener("click", () => {
   if (window.innerWidth > 320) {
-    document.querySelector(".forms-view ").style.cssText = "margin-top: 102px";
+    comebackButton.style.cssText = "margin-top: 50px";
   } else {
-    document.querySelector(".forms-view ").style.cssText = "margin-top: 25px";
+    comebackButton.style.cssText = "margin-top: 25px";
   }
-  moveFormLineTo(2);
+  displayFlex(comebackButton);
+  formLineStatus = 2;
+  moveFormLineTo(formLineStatus);
   displayNone(banner, info);
   displayBlock(statusbar);
   setTimeout(() => {
     moveRedStatusLineTo(2);
   }, 100);
 });
+
 birthdayButton.addEventListener("click", (event) => {
   event.preventDefault();
-  moveFormLineTo(7);
-  moveRedStatusLineTo(7);
+  displayNone(comebackButton);
+  formLineStatus = 7;
+  moveFormLineTo(formLineStatus);
+  moveRedStatusLineTo(formLineStatus);
   displayNone(statusbar);
   result.updateResult(
     "birthday",
@@ -136,7 +147,8 @@ birthdayButton.addEventListener("click", (event) => {
   createAnswersTable(result);
 });
 callButton.addEventListener("click", () => {
-  moveFormLineTo(9);
+  formLineStatus = 9;
+  moveFormLineTo(formLineStatus);
 });
 
 daysSelect.onclick = (event) => {
@@ -261,6 +273,19 @@ function countDaysInMonth(month, year = 2000) {
 function moveFormLineTo(num) {
   formLine.style.left = (num - 1) * -100 + "%";
 }
+
+comebackButton.onclick = moveBack;
+
+function moveBack() {
+  --formLineStatus;
+  if (formLineStatus < 2) {
+    displayBlock(info, banner);
+    displayNone(statusbar, comebackButton);
+  }
+  moveFormLineTo(formLineStatus);
+  moveRedStatusLineTo(formLineStatus);
+}
+
 //MOVE STATUS LINE
 function moveRedStatusLineTo(num) {
   num > 6
@@ -388,6 +413,7 @@ function startLoading() {
         );
         displayNone(document.querySelector(".recording"));
         clearInterval(loadingInterval);
+        formLineStatus = 8;
         setTimeout(() => {
           moveFormLineTo(8);
         }, 1500);

@@ -109,6 +109,17 @@ body {
   }
 }
 
+.comeback {
+  display: none;
+  width: max-content;
+  margin-top: 30px;
+  font-size: 10px;
+  cursor: pointer;
+  &:hover {
+    color: blue;
+  }
+}
+
 .forms-view {
   width: 100%;
   overflow: hidden;
@@ -466,12 +477,16 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     border: 3px solid;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
   }
   .question,
   .answer {
     p {
-      padding: 10px 30px;
+      padding: 15px 30px;
+      text-align: center;
+      border-bottom: 1px solid;
       &:first-child {
+        font-weight: 600;
         background: rgb(197, 227, 238);
         border-bottom: 3px solid;
       }
