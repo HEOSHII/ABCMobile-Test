@@ -510,7 +510,7 @@ let firstTounch, currentTounch, lastTouch, startPositionOfELment, pointToClose;
 
 mainTableResult.addEventListener("touchstart", (event) => {
   event.preventDefault();
-  pointToClose = mainTableResult.clientWidth / 5;
+  pointToClose = mainTableResult.clientWidth / 10;
   firstTounch = event.targetTouches[0].clientX;
   startPositionOfELment = event.target.offsetLeft;
 });
