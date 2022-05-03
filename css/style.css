@@ -10,8 +10,9 @@
 }
 
 :root {
-  --radius: 0.2rem;
+  --radius: 0;
   --color-blue: #315dfa;
+  --loading-time: 20s;
 }
 
 body {
@@ -147,6 +148,9 @@ body {
   -webkit-transition: left 0.4s ease-in-out;
   -o-transition: left 0.4s ease-in-out;
   transition: left 0.4s ease-in-out;
+  -webkit-transition-delay: 0.1s;
+       -o-transition-delay: 0.1s;
+          transition-delay: 0.1s;
 }
 
 .comeback {
@@ -339,13 +343,12 @@ body {
   background: #419330;
   position: absolute;
   z-index: 1;
-  left: calc(-100% + 1 * (100% / 7));
   left: -100%;
 }
 
 .form .loading__bar-green.animated {
-  -webkit-animation: loading1 3s ease-out forwards, loading2 1s ease-out forwards 3.1s, loading3 2s ease-out forwards 4.1s, loading4 1s ease-out forwards 6.3s, loading5 3s ease-out forwards 7.4s, loading6 4s ease forwards 10.5s, loading7 12s ease-out forwards 14.5s;
-          animation: loading1 3s ease-out forwards, loading2 1s ease-out forwards 3.1s, loading3 2s ease-out forwards 4.1s, loading4 1s ease-out forwards 6.3s, loading5 3s ease-out forwards 7.4s, loading6 4s ease forwards 10.5s, loading7 12s ease-out forwards 14.5s;
+  -webkit-animation: loading var(--loading-time) ease-out forwards;
+          animation: loading var(--loading-time) ease-out forwards;
 }
 
 .form .loading__statuses {
@@ -638,6 +641,12 @@ body {
 }
 
 .answers-table-button {
+  margin-top: 25px;
+  position: relative;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
   padding: 10px;
 }
 
@@ -786,86 +795,56 @@ body {
   }
 }
 
-@-webkit-keyframes loading1 {
-  to {
+@-webkit-keyframes loading {
+  0% {
+    left: -100%;
+  }
+  10% {
     left: calc(-100% + 1 * (100% / 7));
   }
-}
-
-@keyframes loading1 {
-  to {
-    left: calc(-100% + 1 * (100% / 7));
-  }
-}
-
-@-webkit-keyframes loading2 {
-  to {
+  15% {
     left: calc(-100% + 2 * (100% / 7));
   }
-}
-
-@keyframes loading2 {
-  to {
-    left: calc(-100% + 2 * (100% / 7));
-  }
-}
-
-@-webkit-keyframes loading3 {
-  to {
+  27% {
     left: calc(-100% + 3 * (100% / 7));
   }
-}
-
-@keyframes loading3 {
-  to {
-    left: calc(-100% + 3 * (100% / 7));
-  }
-}
-
-@-webkit-keyframes loading4 {
-  to {
+  34% {
     left: calc(-100% + 4 * (100% / 7));
   }
-}
-
-@keyframes loading4 {
-  to {
-    left: calc(-100% + 4 * (100% / 7));
-  }
-}
-
-@-webkit-keyframes loading5 {
-  to {
+  46% {
     left: calc(-100% + 5 * (100% / 7));
   }
-}
-
-@keyframes loading5 {
-  to {
-    left: calc(-100% + 5 * (100% / 7));
-  }
-}
-
-@-webkit-keyframes loading6 {
-  to {
+  50% {
     left: calc(-100% + 6 * (100% / 7));
   }
-}
-
-@keyframes loading6 {
-  to {
-    left: calc(-100% + 6 * (100% / 7));
-  }
-}
-
-@-webkit-keyframes loading7 {
-  to {
+  100% {
     left: calc(-100% + 7 * (100% / 7));
   }
 }
 
-@keyframes loading7 {
-  to {
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  10% {
+    left: calc(-100% + 1 * (100% / 7));
+  }
+  15% {
+    left: calc(-100% + 2 * (100% / 7));
+  }
+  27% {
+    left: calc(-100% + 3 * (100% / 7));
+  }
+  34% {
+    left: calc(-100% + 4 * (100% / 7));
+  }
+  46% {
+    left: calc(-100% + 5 * (100% / 7));
+  }
+  50% {
+    left: calc(-100% + 6 * (100% / 7));
+  }
+  100% {
     left: calc(-100% + 7 * (100% / 7));
   }
 }

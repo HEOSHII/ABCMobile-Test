@@ -58,7 +58,7 @@ for (let month = 1; month <= 12; month++) {
   }
 }
 //creating and adding years to select
-for (let year = 2022; year >= 1920; year--) {
+for (let year = 2022; year >= 1922; year--) {
   let option = document.createElement("option");
   option.value = year;
   yearsSelect.appendChild(option).innerText = year;
@@ -82,7 +82,7 @@ document.addEventListener("click", (event) => {
       formLineStatus = 3;
       moveFormLine();
       moveRedStatusLine();
-    }, 200);
+    }, 100);
     result.updateResult(elementName, elementID);
   }
   if (elementID === "yes" || elementID === "no" || elementID === "never") {
@@ -90,7 +90,7 @@ document.addEventListener("click", (event) => {
       formLineStatus = 4;
       moveFormLine();
       moveRedStatusLine();
-    }, 200);
+    }, 100);
   }
   if (
     elementID === "feel" ||
@@ -101,7 +101,7 @@ document.addEventListener("click", (event) => {
       formLineStatus = 5;
       moveFormLine();
       moveRedStatusLine();
-    }, 200);
+    }, 100);
     result.updateResult(elementName, elementID);
   }
 
@@ -115,7 +115,7 @@ document.addEventListener("click", (event) => {
       formLineStatus = 6;
       moveFormLine();
       moveRedStatusLine();
-    }, 200);
+    }, 100);
     result.updateResult(elementName, elementID);
   }
 });
@@ -172,6 +172,7 @@ daysSelect.onclick = (event) => {
   const targetParent = event.target.parentNode;
   scaleArrow("open", targetParent);
 };
+
 daysSelect.onchange = (event) => {
   const targetParent = event.target.parentNode;
   scaleArrow("close", targetParent);
@@ -440,6 +441,7 @@ function getZodiacSign(month, day) {
     return { name: "sagittarius", nameRus: "Стрелец" };
 }
 //===============START LOADING
+const points = document.querySelectorAll(".status-points");
 function startLoading() {
   setTimeout(() => {
     loadingBarGreen.classList.add("animated");
@@ -453,10 +455,12 @@ function startLoading() {
       const pointToShowStatus = 100 / numberOfStatuses;
       if ((percent > 0) & (percent < pointToShowStatus)) {
         displayFlex(loadingStatuses[0]);
+        loadingStatuses[0].querySelector(".status-points").innerText += " . ";
       }
       if ((percent > pointToShowStatus) & (percent < 2 * pointToShowStatus)) {
         displayBlock(loadingStatuses[0].querySelector(".status-done"));
         displayFlex(loadingStatuses[1]);
+        loadingStatuses[1].querySelector(".status-points").innerText += " . ";
       }
       if (
         (percent > 2 * pointToShowStatus) &
@@ -464,6 +468,7 @@ function startLoading() {
       ) {
         displayBlock(loadingStatuses[1].querySelector(".status-done"));
         displayFlex(loadingStatuses[2]);
+        loadingStatuses[2].querySelector(".status-points").innerText += " . ";
       }
       if (
         (percent > 3 * pointToShowStatus) &
@@ -471,6 +476,7 @@ function startLoading() {
       ) {
         displayBlock(loadingStatuses[2].querySelector(".status-done"));
         displayFlex(loadingStatuses[3]);
+        loadingStatuses[3].querySelector(".status-points").innerText += " . ";
       }
       if (
         (percent > 4 * pointToShowStatus) &
@@ -478,6 +484,7 @@ function startLoading() {
       ) {
         displayBlock(loadingStatuses[3].querySelector(".status-done"));
         displayFlex(loadingStatuses[4]);
+        loadingStatuses[4].querySelector(".status-points").innerText += " . ";
       }
       if (
         (percent > 5 * pointToShowStatus) &
@@ -485,6 +492,7 @@ function startLoading() {
       ) {
         displayBlock(loadingStatuses[4].querySelector(".status-done"));
         displayFlex(loadingStatuses[5]);
+        loadingStatuses[5].querySelector(".status-points").innerText += " . ";
       }
       if (
         (percent > 6 * pointToShowStatus) &
@@ -492,6 +500,7 @@ function startLoading() {
       ) {
         displayBlock(loadingStatuses[5].querySelector(".status-done"));
         displayFlex(loadingStatuses[6], loadingStatuses[7]);
+        loadingStatuses[6].querySelector(".status-points").innerText += " . ";
       }
       if (loadingBarGreen.offsetLeft === 0) {
         displayBlock(
@@ -508,7 +517,7 @@ function startLoading() {
         body.style.cursor = "default";
       }
       loadingBarPercent.innerText = percent + "%";
-    }, 0);
+    }, 200);
   }, 777);
 }
 //===============CHECK IS YEAR LEAP
