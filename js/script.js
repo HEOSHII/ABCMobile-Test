@@ -369,9 +369,15 @@ function moveRedStatusLine() {
 }
 //===============CHECK ARE ALL <SELECTS> IN BIRTHDAY_BLOCK SELECTED
 function areAllSelected() {
-  if (monthsSelect.value !== "0") monthsSelect.style.color = "#315DFA";
-  if (yearsSelect.value !== "0") yearsSelect.style.color = "#315DFA";
-  if (daysSelect.value !== "0") daysSelect.style.color = "#315DFA";
+  monthsSelect.value !== "0"
+    ? (monthsSelect.style.color = "#315DFA")
+    : (monthsSelect.style.color = "#000000");
+  yearsSelect.value !== "0"
+    ? (yearsSelect.style.color = "#315DFA")
+    : (yearsSelect.style.color = "#000000");
+  daysSelect.value !== "0"
+    ? (daysSelect.style.color = "#315DFA")
+    : (daysSelect.style.color = "#000000");
   if (
     monthsSelect.value !== "0" &&
     yearsSelect.value !== "0" &&
