@@ -29,6 +29,7 @@ const statusbar = document.querySelector(".statusbar");
 const redLine = document.querySelector(".statusbar__red");
 const loadingBar = document.querySelector(".loading__bar");
 const loadingBarGreen = loadingBar.querySelector(".loading__bar-green");
+const loadingBarPercent = loadingBar.querySelector(".loading__bar-percent");
 const loadingStatuses = document.querySelectorAll(".loading__statuses p");
 const DAYS_BY_DEFAULT = 31;
 const result = {
@@ -36,7 +37,12 @@ const result = {
     this[question] = answer;
   },
 };
-let formLineStatus = 1;
+let formLineStatus = 1,
+  firstTounch,
+  currentTounch,
+  lastTouch,
+  startPosition,
+  pointToClose;
 //========== /OTHER
 
 //creating and adding days to select
@@ -60,13 +66,12 @@ for (let year = 2022; year >= 1920; year--) {
 
 //=========== LISTENERS
 document.addEventListener("click", (event) => {
-  const elementName = event.target.getAttribute("name");
+  const elementName = event.target.name;
   const elementID = event.target.id;
   if (elementID === "male" || elementID === "female") {
     displayFlex(genderButton);
     result.updateResult(elementName, elementID);
   }
-
   if (
     elementID === "morning" ||
     elementID === "night" ||
@@ -75,21 +80,18 @@ document.addEventListener("click", (event) => {
   ) {
     setTimeout(() => {
       formLineStatus = 3;
-      moveFormLineTo();
-      moveRedStatusLineTo();
+      moveFormLine();
+      moveRedStatusLine();
     }, 200);
-
     result.updateResult(elementName, elementID);
   }
-
   if (elementID === "yes" || elementID === "no" || elementID === "never") {
     setTimeout(() => {
       formLineStatus = 4;
-      moveFormLineTo();
-      moveRedStatusLineTo();
+      moveFormLine();
+      moveRedStatusLine();
     }, 200);
   }
-
   if (
     elementID === "feel" ||
     elementID === "not_feel" ||
@@ -97,10 +99,9 @@ document.addEventListener("click", (event) => {
   ) {
     setTimeout(() => {
       formLineStatus = 5;
-      moveFormLineTo();
-      moveRedStatusLineTo();
+      moveFormLine();
+      moveRedStatusLine();
     }, 200);
-
     result.updateResult(elementName, elementID);
   }
 
@@ -112,8 +113,8 @@ document.addEventListener("click", (event) => {
   ) {
     setTimeout(() => {
       formLineStatus = 6;
-      moveFormLineTo();
-      moveRedStatusLineTo();
+      moveFormLine();
+      moveRedStatusLine();
     }, 200);
     result.updateResult(elementName, elementID);
   }
@@ -125,13 +126,13 @@ genderButton.addEventListener("click", () => {
   } else {
     comebackButton.style.cssText = "margin-top: 25px";
   }
-  displayFlex(comebackButton);
   formLineStatus = 2;
-  moveFormLineTo();
+  displayFlex(comebackButton);
+  moveFormLine();
   displayNone(banner, info);
   displayBlock(statusbar);
   setTimeout(() => {
-    moveRedStatusLineTo(2);
+    moveRedStatusLine();
   }, 100);
 });
 
@@ -139,9 +140,10 @@ birthdayButton.addEventListener("click", (event) => {
   event.preventDefault();
   displayNone(comebackButton);
   formLineStatus = 7;
-  moveFormLineTo();
-  moveRedStatusLineTo();
+  moveFormLine();
+  moveRedStatusLine();
   displayNone(statusbar);
+
   let birthdayDay = daysSelect.value;
   let birthdayMonth = monthsSelect.value;
   let birthdayYear = yearsSelect.value;
@@ -160,9 +162,10 @@ birthdayButton.addEventListener("click", (event) => {
   createAnswersTable(result);
   startLoading();
 });
+
 callButton.addEventListener("click", () => {
   formLineStatus = 9;
-  moveFormLineTo();
+  moveFormLine();
 });
 
 daysSelect.onclick = (event) => {
@@ -180,6 +183,7 @@ monthsSelect.onclick = (event) => {
   scaleArrow("open", targetParent);
   areAllSelected();
 };
+
 monthsSelect.onchange = (event) => {
   const targetParent = event.target.parentNode;
   const selectedDay = Number(daysSelect.value);
@@ -196,6 +200,7 @@ yearsSelect.onclick = (event) => {
   scaleArrow("open", targetParent);
   areAllSelected();
 };
+
 yearsSelect.onchange = (event) => {
   const targetParent = event.target.parentNode;
   const selectedDay = Number(daysSelect.value);
@@ -209,27 +214,65 @@ yearsSelect.onchange = (event) => {
 
 comebackButton.onclick = moveBack;
 
+answersOpenButton.onclick = () => {
+  mainTableResult.style.cssText = "left: 0; opacity: 1; pointer-events: all;";
+  body.style.cssText = "overflow: hidden;";
+};
+
+answersCloseButton.onclick = () => {
+  mainTableResult.style.left = "10%";
+  mainTableResult.style.opacity = "0";
+  mainTableResult.style.pointerEvents = "none";
+  body.style.overflow = "auto";
+};
+
+mainTableResult.addEventListener("touchstart", (event) => {
+  pointToClose = mainTableResult.clientWidth / 15;
+  firstTounch = event.targetTouches[0].clientX;
+  startPosition = event.target.offsetLeft;
+});
+
+mainTableResult.addEventListener("touchmove", (event) => {
+  event.preventDefault();
+  event.target.style.transition = "0s";
+  currentTounch = event.targetTouches[0].clientX;
+  event.target.style.left = startPosition + currentTounch - firstTounch + "px";
+});
+
+mainTableResult.addEventListener("touchend", (event) => {
+  lastTouch = event.changedTouches[0].clientX;
+  event.target.style.transition = "0.3s";
+  if (event.target.offsetLeft > pointToClose) {
+    event.target.style.left = `${lastTouch}px`;
+    event.target.style.opacity = `0`;
+    event.target.style.pointerEvents = `none`;
+    body.style.overflow = "auto";
+  } else {
+    event.target.style.left = startPosition;
+  }
+});
 //=========== /LISTENERS
+
 //=========== METHODS
-//SHOW BLOCK(BLOCKS) WITH FLEX
+//===============SHOW BLOCK(BLOCKS) WITH FLEX
 function displayFlex() {
   for (let i = 0; i < arguments.length; i++) {
     arguments[i].style.display = "flex";
   }
 }
-//SHOW BLOCK(BLOCKS) WITH BLOCK
+//===============SHOW BLOCK(BLOCKS) WITH BLOCK
 function displayBlock() {
   for (let i = 0; i < arguments.length; i++) {
     arguments[i].style.display = "block";
   }
 }
-//HIDE BLOCK(BLOCKS)
+//===============HIDE BLOCK(BLOCKS)
 function displayNone() {
   for (let i = 0; i < arguments.length; i++) {
     arguments[i].style.display = "none";
   }
 }
-//ADD DAYS INTO THE SELECT WITH DEFAULT COUNT OF DAYS
+//===============ADD DAYS INTO THE SELECT WITH DEFAULT COUNT OF DAYS
 function addDaysByDefault() {
   for (let day = 1; day <= DAYS_BY_DEFAULT; day++) {
     let option = document.createElement("option");
@@ -241,7 +284,7 @@ function addDaysByDefault() {
     }
   }
 }
-//UPDATE NUMBER OF DAYS DEPENDING ON MONTH
+//===============UPDATE NUMBER OF DAYS DEPENDING ON MONTH
 function updateDaysSelect(countDays, selectedDay) {
   daysSelect.innerHTML = "";
   const selectedOption = document.createElement("option");
@@ -273,7 +316,7 @@ function updateDaysSelect(countDays, selectedDay) {
     }
   }
 }
-//COUNT UP DAYS DEPENDING ON MONTH AND YEAR
+//===============COUNT UP DAYS DEPENDING ON MONTH AND YEAR
 function countDaysInMonth(month, year = 2000) {
   return month === 2
     ? isYearLeap(year)
@@ -283,28 +326,27 @@ function countDaysInMonth(month, year = 2000) {
     ? 30
     : 31;
 }
-//MOVE MAIN QUESTION LINE
-function moveFormLineTo() {
+//===============MOVE MAIN QUESTION LINE
+function moveFormLine() {
   formLine.style.left = (formLineStatus - 1) * -100 + "%";
 }
-
+//===============MOVE BACK FUNCT
 function moveBack() {
   --formLineStatus;
   if (formLineStatus < 2) {
     displayBlock(info, banner);
     displayNone(statusbar, comebackButton);
   }
-  moveFormLineTo();
-  moveRedStatusLineTo();
+  moveFormLine();
+  moveRedStatusLine();
 }
-
-//MOVE STATUS LINE
-function moveRedStatusLineTo() {
+//===============MOVE STATUS LINE
+function moveRedStatusLine() {
   formLineStatus > 6
     ? displayNone(statusbar)
     : (redLine.style.left = (6 - formLineStatus) * (-100 / 5) + "%");
 }
-//CHECK ARE ALL <SELECTS> IN BIRTHDAY_BLOCK SELECTED
+//===============CHECK ARE ALL <SELECTS> IN BIRTHDAY_BLOCK SELECTED
 function areAllSelected() {
   if (monthsSelect.value !== "0") monthsSelect.style.color = "#315DFA";
   if (yearsSelect.value !== "0") yearsSelect.style.color = "#315DFA";
@@ -323,7 +365,7 @@ function areAllSelected() {
     displayBlock(warning);
   }
 }
-// TURN AROUND A ARROW IN <SELECTS>
+//===============TURN AROUND ARROW IN <SELECTS>
 function scaleArrow(action, target) {
   action === "open"
     ? (target.querySelector("img").style.cssText =
@@ -331,7 +373,7 @@ function scaleArrow(action, target) {
     : (target.querySelector("img").style.cssText =
         "transform: translateY(-50%)");
 }
-//CREATE BLOCK WITH IMAGE-SIGN
+//===============CREATE BLOCK WITH IMAGE-SIGN
 function createBlockBySign(sign) {
   const img = document.createElement("img");
   img.setAttribute("src", `assets/sign/${sign.name}.png`);
@@ -341,7 +383,7 @@ function createBlockBySign(sign) {
   signsBlock.innerText = sign.nameRus;
   signsBlock.prepend(img);
 }
-//GET ZODIAC SIGN DEPENDING ON MONTH AND DAY
+//===============GET ZODIAC SIGN DEPENDING ON MONTH AND DAY
 function getZodiacSign(month, day) {
   month = Number(month);
   day = Number(day);
@@ -381,63 +423,61 @@ function getZodiacSign(month, day) {
   if ((month === 11 && day >= 23) || (month === 12 && day <= 21))
     return { name: "sagittarius", nameRus: "Стрелец" };
 }
-//START LOADING
+//===============START LOADING
 function startLoading() {
   setTimeout(() => {
     loadingBarGreen.classList.add("animated");
     console.log("start loading animation...");
-    body.style.cssText = "cursor: progress;";
+    body.style.cursor = "progress";
     const loadingInterval = setInterval(() => {
       const barWidth = loadingBar.clientWidth; // FULL BAR
       const loadingOffset = loadingBarGreen.offsetLeft;
       const percent = Math.trunc(100 - (-loadingOffset / barWidth) * 100);
       const numberOfStatuses = 7;
-      if ((percent > 0) & (percent < 100 / numberOfStatuses)) {
+      const pointToShowStatus = 100 / numberOfStatuses;
+      if ((percent > 0) & (percent < pointToShowStatus)) {
         displayFlex(loadingStatuses[0]);
       }
-      if (
-        (percent > 100 / numberOfStatuses) &
-        (percent < 2 * (100 / numberOfStatuses))
-      ) {
+      if ((percent > pointToShowStatus) & (percent < 2 * pointToShowStatus)) {
         displayBlock(loadingStatuses[0].querySelector(".status-done"));
         displayFlex(loadingStatuses[1]);
       }
       if (
-        (percent > 2 * (100 / numberOfStatuses)) &
-        (percent < 3 * (100 / numberOfStatuses))
+        (percent > 2 * pointToShowStatus) &
+        (percent < 3 * pointToShowStatus)
       ) {
         displayBlock(loadingStatuses[1].querySelector(".status-done"));
         displayFlex(loadingStatuses[2]);
       }
       if (
-        (percent > 3 * (100 / numberOfStatuses)) &
-        (percent < 4 * (100 / numberOfStatuses))
+        (percent > 3 * pointToShowStatus) &
+        (percent < 4 * pointToShowStatus)
       ) {
         displayBlock(loadingStatuses[2].querySelector(".status-done"));
         displayFlex(loadingStatuses[3]);
       }
       if (
-        (percent > 4 * (100 / numberOfStatuses)) &
-        (percent < 5 * (100 / numberOfStatuses))
+        (percent > 4 * pointToShowStatus) &
+        (percent < 5 * pointToShowStatus)
       ) {
         displayBlock(loadingStatuses[3].querySelector(".status-done"));
         displayFlex(loadingStatuses[4]);
       }
       if (
-        (percent > 5 * (100 / numberOfStatuses)) &
-        (percent < 6 * (100 / numberOfStatuses))
+        (percent > 5 * pointToShowStatus) &
+        (percent < 6 * pointToShowStatus)
       ) {
         displayBlock(loadingStatuses[4].querySelector(".status-done"));
         displayFlex(loadingStatuses[5]);
       }
       if (
-        (percent > 6 * (100 / numberOfStatuses)) &
-        (percent < 7 * (100 / numberOfStatuses))
+        (percent > 6 * pointToShowStatus) &
+        (percent < 7 * pointToShowStatus)
       ) {
         displayBlock(loadingStatuses[5].querySelector(".status-done"));
         displayFlex(loadingStatuses[6], loadingStatuses[7]);
       }
-      if (loadingBar.querySelector("div").offsetLeft === 0) {
+      if (loadingBarGreen.offsetLeft === 0) {
         displayBlock(
           loadingStatuses[6].querySelector(".status-done"),
           document.querySelector(".done")
@@ -446,16 +486,16 @@ function startLoading() {
         clearInterval(loadingInterval);
         formLineStatus = 8;
         setTimeout(() => {
-          moveFormLineTo();
+          moveFormLine();
         }, 1500);
         console.log("loading animation is done.");
-        document.querySelector("body").style.cssText = "cursor: default;";
+        body.style.cursor = "default";
       }
-      loadingBar.querySelector("p").innerText = percent + "%";
+      loadingBarPercent.innerText = percent + "%";
     }, 0);
   }, 777);
 }
-//CHECK IS YEAR LEAP
+//===============CHECK IS YEAR LEAP
 function isYearLeap(year) {
   return year % 100 === 0 && year % 400 !== 0
     ? false
@@ -463,7 +503,7 @@ function isYearLeap(year) {
     ? true
     : false;
 }
-//CREATE TABLE WITH DATA FROM URL
+//===============CREATE TABLE WITH DATA FROM URL
 function createTable(data) {
   for (key in data) {
     dataTable.innerHTML += `<tbody>
@@ -474,7 +514,7 @@ function createTable(data) {
                             </tbody>`;
   }
 }
-//CREATE TABLE WITH ANSWERS
+//===============CREATE TABLE WITH ANSWERS
 function createAnswersTable(object) {
   for (key in object) {
     const question = document.createElement("p");
@@ -495,44 +535,3 @@ fetch("https://swapi.dev/api/people/1/")
     createTable(JSON.parse(response));
   });
 //=========== /FETCH REQUEST
-
-answersOpenButton.onclick = () => {
-  mainTableResult.style.cssText = "left: 0; opacity: 1; pointer-events: all;";
-  body.style.cssText = "overflow: hidden;";
-};
-
-answersCloseButton.onclick = (event) => {
-  mainTableResult.style.left = "10%";
-  mainTableResult.style.opacity = "0";
-  mainTableResult.style.pointerEvents = "none";
-  body.style.overflow = "auto";
-};
-
-let firstTounch, currentTounch, lastTouch, startPositionOfELment, pointToClose;
-
-mainTableResult.addEventListener("touchstart", (event) => {
-  pointToClose = mainTableResult.clientWidth / 15;
-  firstTounch = event.targetTouches[0].clientX;
-  startPositionOfELment = event.target.offsetLeft;
-});
-
-mainTableResult.addEventListener("touchmove", (event) => {
-  event.preventDefault();
-  event.target.style.transition = "0s";
-  currentTounch = event.targetTouches[0].clientX;
-  event.target.style.left =
-    startPositionOfELment + currentTounch - firstTounch + "px";
-});
-
-mainTableResult.addEventListener("touchend", (event) => {
-  lastTouch = event.changedTouches[0].clientX;
-  event.target.style.transition = "0.3s";
-  if (event.target.offsetLeft > pointToClose) {
-    event.target.style.left = `${lastTouch}px`;
-    event.target.style.opacity = `0`;
-    event.target.style.pointerEvents = `none`;
-    body.style.overflow = "auto";
-  } else {
-    event.target.style.left = startPositionOfELment;
-  }
-});
