@@ -637,6 +637,10 @@ body {
           transform: scale(0.99);
 }
 
+.answers-table-button {
+  padding: 10px;
+}
+
 .answers-objects {
   position: fixed;
   top: 0;
@@ -703,9 +707,9 @@ body {
   top: 20px;
   right: 20px;
   cursor: pointer;
-  -webkit-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  transition: all 0.2s;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .answers-objects__close-button:hover {

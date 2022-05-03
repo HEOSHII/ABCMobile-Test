@@ -1,5 +1,5 @@
 // ========== BUTTONS
-const body = document.querySelector("body");
+const body = document.body;
 const main = document.querySelector("main");
 const genderButton = document.getElementById("gender-Btn");
 const birthdayButton = document.getElementById("birthday-Btn");
@@ -502,21 +502,23 @@ answersOpenButton.onclick = () => {
 };
 
 answersCloseButton.onclick = (event) => {
-  mainTableResult.style.cssText = `left: 10%; opacity: 0; pointer-events: none;`;
-  body.style.cssText = "overflow: auto;";
+  mainTableResult.style.left = "10%";
+  mainTableResult.style.opacity = "0";
+  mainTableResult.style.pointerEvents = "none";
+  body.style.overflow = "auto";
 };
 
 let firstTounch, currentTounch, lastTouch, startPositionOfELment, pointToClose;
 
 mainTableResult.addEventListener("touchstart", (event) => {
-  event.preventDefault();
-  pointToClose = mainTableResult.clientWidth / 10;
+  pointToClose = mainTableResult.clientWidth / 15;
   firstTounch = event.targetTouches[0].clientX;
   startPositionOfELment = event.target.offsetLeft;
 });
 
 mainTableResult.addEventListener("touchmove", (event) => {
   event.preventDefault();
+  event.target.style.transition = "0s";
   currentTounch = event.targetTouches[0].clientX;
   event.target.style.left =
     startPositionOfELment + currentTounch - firstTounch + "px";
@@ -524,9 +526,12 @@ mainTableResult.addEventListener("touchmove", (event) => {
 
 mainTableResult.addEventListener("touchend", (event) => {
   lastTouch = event.changedTouches[0].clientX;
+  event.target.style.transition = "0.3s";
   if (event.target.offsetLeft > pointToClose) {
-    event.target.style.cssText = `left: calc(${lastTouch}px + 10%); opacity: 0; pointer-events: none;`;
-    body.style.cssText = "overflow: auto;";
+    event.target.style.left = `${lastTouch}px`;
+    event.target.style.opacity = `0`;
+    event.target.style.pointerEvents = `none`;
+    body.style.overflow = "auto";
   } else {
     event.target.style.left = startPositionOfELment;
   }

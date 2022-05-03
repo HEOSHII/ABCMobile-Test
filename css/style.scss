@@ -481,6 +481,10 @@ body {
   }
 }
 
+.answers-table-button {
+  padding: 10px;
+}
+
 .answers-objects {
   position: fixed;
   top: 0;
@@ -527,7 +531,7 @@ body {
     top: 20px;
     right: 20px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
     &:hover {
       transform: rotate(90deg) scale(1.5);
     }
