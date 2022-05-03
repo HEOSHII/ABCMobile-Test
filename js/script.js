@@ -1,6 +1,7 @@
 // ========== BUTTONS
 const body = document.body;
 const main = document.querySelector("main");
+const headerAndMain = document.querySelector(".header-main");
 const genderButton = document.getElementById("gender-Btn");
 const birthdayButton = document.getElementById("birthday-Btn");
 const callButton = document.querySelector(".call");
@@ -23,6 +24,7 @@ const mainTableResult = document.querySelector(".answers-objects");
 const tableQuestion = document.querySelector(".question");
 const tableAnswer = document.querySelector(".answer");
 const warning = document.querySelector(".warning");
+
 //========== /SECTIONS, BLOCKS, TABLES
 //========== OTHER
 const statusbar = document.querySelector(".statusbar");
@@ -218,6 +220,7 @@ comebackButton.onclick = moveBack;
 answersOpenButton.onclick = () => {
   mainTableResult.style.cssText = "left: 0; opacity: 1; pointer-events: all;";
   body.style.cssText = "overflow: hidden;";
+  headerAndMain.style.cssText = "filter: blur(5px);";
 };
 
 answersCloseButton.onclick = () => {
@@ -225,6 +228,7 @@ answersCloseButton.onclick = () => {
   mainTableResult.style.opacity = "0";
   mainTableResult.style.pointerEvents = "none";
   body.style.overflow = "auto";
+  headerAndMain.style.cssText = "filter: blur(0);";
 };
 
 mainTableResult.addEventListener("touchstart", (event) => {
@@ -248,11 +252,13 @@ mainTableResult.addEventListener("touchmove", (event) => {
     currentTounch = event.targetTouches[0].clientX;
     event.target.style.left =
       startPosition + currentTounch - firstTounch + "px";
+    headerAndMain.style.cssText = `filter: blur(${
+      (mainTableResult.clientWidth - event.target.offsetLeft) / 60
+    }px);`;
     event.target.style.opacity = `${
       (100 + (firstTounch - currentTounch)) / 80
     }`;
   }
-  console.log((100 + (firstTounch - currentTounch)) / 100);
 });
 
 mainTableResult.addEventListener("touchend", (event) => {
@@ -267,6 +273,7 @@ mainTableResult.addEventListener("touchend", (event) => {
       event.target.style.opacity = `0`;
       event.target.style.pointerEvents = `none`;
       body.style.overflow = "auto";
+      headerAndMain.style.cssText = "filter: blur(0);";
     } else {
       event.target.style.left = startPosition;
     }
