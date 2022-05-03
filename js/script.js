@@ -227,28 +227,44 @@ answersCloseButton.onclick = () => {
 };
 
 mainTableResult.addEventListener("touchstart", (event) => {
-  pointToClose = mainTableResult.clientWidth / 15;
-  firstTounch = event.targetTouches[0].clientX;
-  startPosition = event.target.offsetLeft;
+  if (
+    event.target.className !== "answers-objects__close-button-line" &&
+    event.target.className !== "answers-objects__close-button"
+  ) {
+    pointToClose = mainTableResult.clientWidth / 15;
+    firstTounch = event.targetTouches[0].clientX;
+    startPosition = event.target.offsetLeft;
+  }
 });
 
 mainTableResult.addEventListener("touchmove", (event) => {
   event.preventDefault();
-  event.target.style.transition = "0s";
-  currentTounch = event.targetTouches[0].clientX;
-  event.target.style.left = startPosition + currentTounch - firstTounch + "px";
+  if (
+    event.target.className !== "answers-objects__close-button-line" &&
+    event.target.className !== "answers-objects__close-button"
+  ) {
+    event.target.style.transition = "0s";
+    currentTounch = event.targetTouches[0].clientX;
+    event.target.style.left =
+      startPosition + currentTounch - firstTounch + "px";
+  }
 });
 
 mainTableResult.addEventListener("touchend", (event) => {
-  lastTouch = event.changedTouches[0].clientX;
-  event.target.style.transition = "0.3s";
-  if (event.target.offsetLeft > pointToClose) {
-    event.target.style.left = `${lastTouch}px`;
-    event.target.style.opacity = `0`;
-    event.target.style.pointerEvents = `none`;
-    body.style.overflow = "auto";
-  } else {
-    event.target.style.left = startPosition;
+  if (
+    event.target.className !== "answers-objects__close-button-line" &&
+    event.target.className !== "answers-objects__close-button"
+  ) {
+    lastTouch = event.changedTouches[0].clientX;
+    event.target.style.transition = "0.3s";
+    if (event.target.offsetLeft > pointToClose) {
+      event.target.style.left = `${lastTouch}px`;
+      event.target.style.opacity = `0`;
+      event.target.style.pointerEvents = `none`;
+      body.style.overflow = "auto";
+    } else {
+      event.target.style.left = startPosition;
+    }
   }
 });
 //=========== /LISTENERS
