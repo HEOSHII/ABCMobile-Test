@@ -1,7 +1,7 @@
 // ========== BUTTONS
 const body = document.body;
 const main = document.querySelector("main");
-const headerAndMain = document.querySelector(".header-main");
+const header = document.querySelector("header");
 const genderButton = document.getElementById("gender-Btn");
 const birthdayButton = document.getElementById("birthday-Btn");
 const callButton = document.querySelector(".call");
@@ -220,7 +220,8 @@ comebackButton.onclick = moveBack;
 answersOpenButton.onclick = () => {
   mainTableResult.style.cssText = "left: 0; opacity: 1; pointer-events: all;";
   body.style.cssText = "overflow: hidden;";
-  headerAndMain.style.cssText = "filter: blur(5px);";
+  header.style.cssText = "filter: blur(5px);";
+  main.style.cssText = "filter: blur(5px);";
 };
 
 answersCloseButton.onclick = () => {
@@ -228,7 +229,8 @@ answersCloseButton.onclick = () => {
   mainTableResult.style.opacity = "0";
   mainTableResult.style.pointerEvents = "none";
   body.style.overflow = "auto";
-  headerAndMain.style.cssText = "filter: blur(0);";
+  header.style.cssText = "filter: blur(0);";
+  main.style.cssText = "filter: blur(0);";
 };
 
 mainTableResult.addEventListener("touchstart", (event) => {
@@ -252,7 +254,10 @@ mainTableResult.addEventListener("touchmove", (event) => {
     currentTounch = event.targetTouches[0].clientX;
     event.target.style.left =
       startPosition + currentTounch - firstTounch + "px";
-    headerAndMain.style.cssText = `filter: blur(${
+    main.style.cssText = `filter: blur(${
+      (mainTableResult.clientWidth - event.target.offsetLeft) / 60
+    }px);`;
+    header.style.cssText = `filter: blur(${
       (mainTableResult.clientWidth - event.target.offsetLeft) / 60
     }px);`;
     event.target.style.opacity = `${
@@ -273,7 +278,8 @@ mainTableResult.addEventListener("touchend", (event) => {
       event.target.style.opacity = `0`;
       event.target.style.pointerEvents = `none`;
       body.style.overflow = "auto";
-      headerAndMain.style.cssText = "filter: blur(0);";
+      header.style.cssText = "filter: blur(0);";
+      main.style.cssText = "filter: blur(0);";
     } else {
       event.target.style.left = startPosition;
     }
