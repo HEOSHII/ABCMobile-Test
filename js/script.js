@@ -248,7 +248,11 @@ mainTableResult.addEventListener("touchmove", (event) => {
     currentTounch = event.targetTouches[0].clientX;
     event.target.style.left =
       startPosition + currentTounch - firstTounch + "px";
+    event.target.style.opacity = `${
+      (100 + (firstTounch - currentTounch)) / 80
+    }`;
   }
+  console.log((100 + (firstTounch - currentTounch)) / 100);
 });
 
 mainTableResult.addEventListener("touchend", (event) => {
@@ -441,7 +445,6 @@ function getZodiacSign(month, day) {
     return { name: "sagittarius", nameRus: "Стрелец" };
 }
 //===============START LOADING
-const points = document.querySelectorAll(".status-points");
 function startLoading() {
   setTimeout(() => {
     loadingBarGreen.classList.add("animated");
