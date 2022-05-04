@@ -11,7 +11,7 @@
 
 :root {
   //variables
-  --radius: 0;
+  --radius: 0.15rem;
   --color-blue: #315dfa;
   --loading-time: 20s; //CHANGE TO SPEEDUP OR SLOWDOWN LOADING
 }
@@ -139,10 +139,10 @@ body {
   border-radius: var(--radius);
   &:hover {
     color: var(--color-blue);
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
   &:active {
-    transform: scale(0.97);
+    transform: scale(1);
     transition: none;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
   }
@@ -160,7 +160,7 @@ body {
   left: 0;
 
   // YOU CAN CONTROLL THE FORMLINE POSITION FOR TESTING (start: 0; end: -800%; step: -100%)
-  // left: -600%;
+  // left: -800%;
 
   display: flex;
   transition: left 0.2s ease-in-out;
@@ -399,10 +399,17 @@ body {
       display: none;
     }
     label {
-      padding: 10px 5px;
+      padding: 10px;
       &:hover {
-        background: rgb(235, 235, 235);
+        background: rgb(250, 250, 250);
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        transform: scale(1.01);
         border-radius: var(--radius);
+      }
+      &:active {
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+        transform: scale(1);
+        transition: all 0s;
       }
     }
     label::before {

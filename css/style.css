@@ -10,7 +10,7 @@
 }
 
 :root {
-  --radius: 0;
+  --radius: 0.15rem;
   --color-blue: #315dfa;
   --loading-time: 20s;
 }
@@ -184,15 +184,15 @@ body {
 
 .comeback:hover {
   color: var(--color-blue);
-  -webkit-transform: scale(1.05);
-      -ms-transform: scale(1.05);
-          transform: scale(1.05);
+  -webkit-transform: scale(1.04);
+      -ms-transform: scale(1.04);
+          transform: scale(1.04);
 }
 
 .comeback:active {
-  -webkit-transform: scale(0.97);
-      -ms-transform: scale(0.97);
-          transform: scale(0.97);
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
   -webkit-transition: none;
   -o-transition: none;
   transition: none;
@@ -533,12 +533,28 @@ body {
 }
 
 .form__inputs label {
-  padding: 10px 5px;
+  padding: 10px;
 }
 
 .form__inputs label:hover {
-  background: #ebebeb;
+  background: #fafafa;
+  -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-transform: scale(1.01);
+      -ms-transform: scale(1.01);
+          transform: scale(1.01);
   border-radius: var(--radius);
+}
+
+.form__inputs label:active {
+  -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
+  -webkit-transition: all 0s;
+  -o-transition: all 0s;
+  transition: all 0s;
 }
 
 .form__inputs label::before {

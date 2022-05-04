@@ -68,6 +68,7 @@ for (let year = 2022; year >= 1922; year--) {
 
 //=========== LISTENERS
 document.addEventListener("click", (event) => {
+  console.log(event.target);
   const elementName = event.target.name;
   const elementID = event.target.id;
   if (elementID === "male" || elementID === "female") {
